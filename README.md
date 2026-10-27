@@ -213,7 +213,9 @@ autograder/
 
 ## Team
 
-Add team member names here.
+1. Kumar Manglam -> 2611AI56
+2. Aradhya Randan-> 2611AI25
+3. Subhadip Dey --> 2611AI41
 
 ## License
 
