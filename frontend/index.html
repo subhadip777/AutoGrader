@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AutoGrader - Teacher</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>AutoGrader</h1>
+    <span class="role">Teacher</span>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Create assignment</h2>
+      <form id="assignment-form" novalidate>
+        <label>Title
+          <input id="title" type="text" placeholder="e.g. Add two integers">
+        </label>
+
+        <label>Problem statement
+          <textarea id="statement" rows="8" placeholder="Paste the problem statement, or load a .txt file below"></textarea>
+        </label>
+        <label>Load statement from file (.txt / .md)
+          <input id="statement-file" type="file" accept=".txt,.md">
+        </label>
+
+        <label>Grading policy (.json)
+          <input id="policy-file" type="file" accept=".json">
+        </label>
+
+        
+
+        <label>Number of test cases
+          <input id="num-tests" type="number" value="25" min="5" max="100">
+        </label>
+
+        <p id="form-message" role="alert"></p>
+        <button type="submit">Create assignment</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Assignments</h2>
+      <div id="tiles" class="tiles"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "id": "ASG-CBB66B",
+  "title": "ss",
+  "status": "published",
+  "num_tests": 25,
+  "rules_sha256": "3bf604072c3641a57a25f0a6e9890d4d4c75340b1a3690c89a91fd674a838540",
+  "created_at": "2026-10-26T19:49:57.968963+00:00",
+  "generation": {
+    "state": "done",
+    "message": "attempt 1: dropped 1 duplicate/empty/oversized test(s); attempt 2: dropped 5 duplicate/empty/oversized test(s); attempt 3: dropped 7 duplicate/empty/oversized test(s); attempt 4: dropped 6 duplicate/empty/oversized test(s); attempt 5: dropped 4 duplicate/empty/oversized test(s); attempt 6: dropped 8 duplicate/empty/oversized test(s); attempt 7: dropped 8 duplicate/empty/oversized test(s); attempt 8: dropped 9 duplicate/empty/oversized test(s); only 12 of 25 requested tests were produced",
+    "updated_at": "2026-10-26T20:20:30.975108+00:00"
+  },
+  "tests_accepted": true,
+  "tests_accepted_at": "2026-10-26T20:26:49.873834+00:00",
+  "published_at": "2026-10-26T20:27:04.542311+00:00"
+}

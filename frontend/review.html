@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AutoGrader - Validate test cases</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>AutoGrader</h1>
+    <span class="role">Teacher</span>
+  </header>
+
+  <main>
+    <h2 id="heading">Validate test cases</h2>
+    <p id="status" class="status-line"></p>
+    <div class="actions">
+      <button id="regen" type="button" class="secondary">Regenerate</button>
+      <button id="accept" type="button">Accept</button>
+    </div>
+
+    <div class="card table-wrap">
+      <table id="tests">
+        <thead>
+          <tr><th>#</th><th>Input</th><th>Expected output</th><th>Category</th><th>Why</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="review.js"></script>
+</body>
+</html>

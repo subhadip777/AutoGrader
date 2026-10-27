@@ -1,0 +1,86 @@
+[
+  {
+    "id": "T001",
+    "input": "1234",
+    "expected_output": "10\n",
+    "category": "typical",
+    "explanation": "The input is a positive integer, and the expected output is the sum of its digits."
+  },
+  {
+    "id": "T002",
+    "input": "1111",
+    "expected_output": "3\n",
+    "category": "typical",
+    "explanation": "The input is a positive integer, and the expected output is the sum of its digits."
+  },
+  {
+    "id": "T003",
+    "input": "0",
+    "expected_output": "0\n",
+    "category": "typical",
+    "explanation": "The input is a positive integer, and the expected output is the sum of its digits."
+  },
+  {
+    "id": "T004",
+    "input": "123456789",
+    "expected_output": "45\n",
+    "category": "typical",
+    "explanation": "The input is a positive integer, and the expected output is the sum of its digits."
+  },
+  {
+    "id": "T005",
+    "input": "-123456789",
+    "expected_output": "-1\n",
+    "category": "typical",
+    "explanation": "The input is a positive integer, and the expected output is the sum of its digits."
+  },
+  {
+    "id": "T006",
+    "input": "1234567890",
+    "expected_output": "45\n",
+    "category": "typical",
+    "explanation": "The input is a positive integer, and the expected output is the sum of its digits."
+  },
+  {
+    "id": "T007",
+    "input": "-1234567890",
+    "expected_output": "-45\n",
+    "category": "negative",
+    "explanation": "This test case checks if the input is a valid positive integer. The expected output is the sum of the digits of -1234567890, which is -45."
+  },
+  {
+    "id": "T008",
+    "input": "12345678901234567890",
+    "expected_output": "63\n",
+    "category": "typical",
+    "explanation": "The input is a positive integer, and the expected output is the sum of its digits, which is 63."
+  },
+  {
+    "id": "T009",
+    "input": "123456789012345678901234567890",
+    "expected_output": "10\n",
+    "category": "zero",
+    "explanation": "The input is a positive integer, and the expected output should be the sum of its digits, which is 10."
+  },
+  {
+    "id": "T010",
+    "input": "-123456789012345678901234567890",
+    "expected_output": "-10\n",
+    "category": "zero",
+    "explanation": "The input is a negative integer, and the expected output should be the sum of its digits, which is -10."
+  },
+  {
+    "id": "T011",
+    "input": "1234567890123456789012345678901234567890",
+    "expected_output": "10\n",
+    "category": "zero",
+    "explanation": "The input is a positive integer, and the expected output should be the sum of its digits, which is 10."
+  },
+  {
+    "id": "T012",
+    "input": "-12345678901234567890",
+    "expected_output": "-35\n",
+    "category": "negative",
+    "explanation": "The input -12345678901234567890 is a negative integer, and the sum of its digits is -35."
+  }
+]

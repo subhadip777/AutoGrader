@@ -1,0 +1,51 @@
+[
+  {
+    "id": "T001",
+    "input": "10 20",
+    "expected_output": "30\n",
+    "category": "negative",
+    "explanation": "The input values are valid, but the expected output should be a positive integer, so the expected output is 30."
+  },
+  {
+    "id": "T002",
+    "input": "-5 12",
+    "expected_output": "7\n",
+    "category": "int_overflow",
+    "explanation": "The input values are valid, but the expected output should be a positive integer, so the expected output is 7."
+  },
+  {
+    "id": "T003",
+    "input": "100 200",
+    "expected_output": "300\n",
+    "category": "int_overflow",
+    "explanation": "The input values are valid, but the expected output should be a positive integer, so the expected output is 300."
+  },
+  {
+    "id": "T004",
+    "input": "0 10",
+    "expected_output": "10\n",
+    "category": "zero",
+    "explanation": "The input values are valid, but the expected output should be a positive integer, so the expected output is 10."
+  },
+  {
+    "id": "T005",
+    "input": "10 0",
+    "expected_output": "10\n",
+    "category": "zero",
+    "explanation": "The input value is valid, but the expected output should be a positive integer, so the expected output is 10."
+  },
+  {
+    "id": "T006",
+    "input": "10 -10",
+    "expected_output": "0\n",
+    "category": "int_overflow",
+    "explanation": "The input values are valid, but the expected output should be a positive integer, so the expected output is 0."
+  },
+  {
+    "id": "T007",
+    "input": "100 200 300",
+    "expected_output": "600\n",
+    "category": "int_overflow",
+    "explanation": "The input values are valid, but the expected output should be a positive integer, so the expected output is 600."
+  }
+]

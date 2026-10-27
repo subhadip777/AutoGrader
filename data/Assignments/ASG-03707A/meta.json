@@ -1,0 +1,16 @@
+{
+  "id": "ASG-03707A",
+  "title": "Add Two Integers",
+  "status": "published",
+  "num_tests": 25,
+  "tests_accepted": true,
+  "rules_sha256": "561299d3118ae74eaac0a67e2c03a5728f9e27cf94f85f0c69eec631a2eabcc2",
+  "created_at": "2026-10-26T20:33:24.180693+00:00",
+  "generation": {
+    "state": "done",
+    "message": "attempt 2: dropped 7 duplicate/empty/oversized test(s); attempt 3: dropped 7 duplicate/empty/oversized test(s); attempt 4: dropped 7 duplicate/empty/oversized test(s); attempt 5: dropped 7 duplicate/empty/oversized test(s); attempt 6: dropped 7 duplicate/empty/oversized test(s); attempt 7: dropped 7 duplicate/empty/oversized test(s); attempt 8: dropped 7 duplicate/empty/oversized test(s); only 7 of 25 requested tests were produced",
+    "updated_at": "2026-10-26T20:35:42.418621+00:00"
+  },
+  "tests_accepted_at": "2026-10-26T20:36:37.884024+00:00",
+  "published_at": "2026-10-26T20:36:52.973596+00:00"
+}
