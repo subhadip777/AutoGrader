@@ -1,0 +1,19 @@
+Problem: Sum of Two Integers
+
+Read two integers A and B on a single line, separated by whitespace, and print their sum
+followed by a newline.
+
+Input format
+A single line containing two integers A and B.
+
+Output format
+A single integer: A + B.
+
+Constraints
+-1000000000 <= A, B <= 1000000000
+
+Example
+Input:
+7 5
+Output:
+12

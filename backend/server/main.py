@@ -1,19 +1,30 @@
-import math
+import logging
 from contextlib import asynccontextmanager
+from typing import Literal
 
-from fastapi import BackgroundTasks, FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import BackgroundTasks, FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from agents import testgen
-from server import jobs, storage
+from grading import policy as grading_policy
+from server import jobs, sandbox, storage
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+log = logging.getLogger("autograder")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     storage.reset_stale_jobs()
-    storage.reset_stale_submissions()
+    for aid, roll in storage.reset_stale_submissions():
+        jobs.enqueue(aid, roll)
+    st = sandbox.status(refresh=True)
+    if not st["available"]:
+        log.error("sandbox unavailable (%s): submissions will be stored but not graded", st["detail"])
+    elif not st["isolated"]:
+        log.warning("%s", st["detail"])
     yield
 
 
@@ -33,10 +44,9 @@ class Policy(BaseModel):
     metrics: list[Metric] = Field(min_length=1)
 
     @model_validator(mode="after")
-    def weights_sum_to_one(self):
-        total = sum(m.weight for m in self.metrics)
-        if not math.isclose(total, 1.0, abs_tol=0.001):
-            raise ValueError(f"weights must sum to 1.00 (got {total:.2f})")
+    def valid_policy(self):
+        # weights sum to 1.00, known analyzers, valid flags, limits and input_spec
+        grading_policy.validate(self.model_dump())
         return self
 
 
@@ -45,6 +55,7 @@ class NewAssignment(BaseModel):
     statement: str = Field(min_length=1, max_length=50_000)
     policy: Policy
     num_tests: int = Field(ge=5, le=100)
+    reference_solution: str | None = Field(default=None, max_length=storage.MAX_SOURCE_BYTES)
 
 class CaseIn(BaseModel):
     input: str = Field(max_length=10_000)
@@ -57,10 +68,16 @@ class TestsIn(BaseModel):
     tests: list[CaseIn] = Field(max_length=100)
 
 
+@app.get("/api/health")
+def health():
+    return {"sandbox": sandbox.status(), "analyzers": sorted(grading_policy.REGISTRY)}
+
+
 @app.post("/api/assignments")
 def create(body: NewAssignment):
     return storage.create_assignment(
-        body.title, body.statement, body.policy.model_dump(), body.num_tests
+        body.title, body.statement, body.policy.model_dump(), body.num_tests,
+        (body.reference_solution or "").strip() and body.reference_solution,
     )
 
 
@@ -159,9 +176,8 @@ def student_get(aid: str):
 @app.post("/api/student/assignments/{aid}/submissions", status_code=202)
 def student_submit(
     aid: str,
-    background: BackgroundTasks,
-    name: str = Form(...),
-    roll_number: str = Form(...),
+    name: str = Form(..., max_length=200),
+    roll_number: str = Form(..., max_length=64),
     file: UploadFile = File(...),
 ):
     source = file.file.read(storage.MAX_SOURCE_BYTES + 1)
@@ -173,26 +189,99 @@ def student_submit(
         raise HTTPException(404, "assignment not found")
     except PermissionError as e:
         raise HTTPException(409, str(e))
-    background.add_task(jobs.run_submission, aid, info["roll_number"])
+    jobs.enqueue(aid, info["roll_number"])
     return {"assignment_id": aid, "roll_number": info["roll_number"], "attempt": info["attempt"]}
+
+
+def _published_submission(aid: str, roll: str) -> None:
+    """Student endpoints only ever see published assignments."""
+    storage.get_public(aid)
+    storage.normalize_roll(roll)
 
 
 @app.get("/api/student/assignments/{aid}/submissions/{roll}/status")
 def student_status(aid: str, roll: str):
     try:
+        _published_submission(aid, roll)
         return storage.get_submission_status(aid, roll)
     except (ValueError, FileNotFoundError):
         raise HTTPException(404, "submission not found")
 
 
 @app.get("/api/student/assignments/{aid}/submissions/{roll}/report")
-def student_report(aid: str, roll: str):
+def student_report(aid: str, roll: str, format: Literal["txt", "json"] = Query("txt")):
     try:
-        path = storage.report_path(aid, roll)
+        _published_submission(aid, roll)
+        path = storage.report_path(aid, roll, format)
         roll_id = storage.normalize_roll(roll)
     except (ValueError, FileNotFoundError):
         raise HTTPException(404, "report not ready")
-    return FileResponse(path, media_type="text/plain; charset=utf-8",
-                        filename=f"report_{aid}_{roll_id}.txt")
+    media = "application/json" if format == "json" else "text/plain; charset=utf-8"
+    return FileResponse(path, media_type=media, filename=f"report_{aid}_{roll_id}.{format}")
+
+
+@app.get("/api/student/assignments/{aid}/submissions/{roll}/result")
+def student_result(aid: str, roll: str):
+    """The graded report as JSON, for the results view on the student page."""
+    try:
+        _published_submission(aid, roll)
+        return storage.read_report(aid, roll)
+    except (ValueError, FileNotFoundError):
+        raise HTTPException(404, "report not ready")
+
+
+@app.get("/api/student/assignments/{aid}/submissions/{roll}/history")
+def student_history(aid: str, roll: str):
+    try:
+        _published_submission(aid, roll)
+        return storage.history(aid, roll)
+    except (ValueError, FileNotFoundError):
+        raise HTTPException(404, "submission not found")
+
+
+# ------------------------------------------------------------ teacher: submissions
+@app.get("/api/assignments/{aid}/submissions")
+def teacher_submissions(aid: str):
+    try:
+        return storage.list_submissions(aid)
+    except (ValueError, FileNotFoundError):
+        raise HTTPException(404, "assignment not found")
+
+
+@app.get("/api/assignments/{aid}/submissions/{roll}")
+def teacher_submission(aid: str, roll: str):
+    try:
+        status = storage.get_submission_status(aid, roll)
+        out = {"status": status, "history": storage.history(aid, roll),
+               "source": storage.read_source(aid, roll), "report": None, "review": None}
+        if status["state"] == "done":
+            out["report"] = storage.read_report(aid, roll)
+            out["review"] = storage.read_review(aid, roll)
+        return out
+    except (ValueError, FileNotFoundError):
+        raise HTTPException(404, "submission not found")
+
+
+@app.get("/api/assignments/{aid}/submissions/{roll}/report")
+def teacher_report(aid: str, roll: str, format: Literal["txt", "json"] = Query("txt")):
+    try:
+        path = storage.report_path(aid, roll, format)
+        roll_id = storage.normalize_roll(roll)
+    except (ValueError, FileNotFoundError):
+        raise HTTPException(404, "report not ready")
+    media = "application/json" if format == "json" else "text/plain; charset=utf-8"
+    return FileResponse(path, media_type=media, filename=f"report_{aid}_{roll_id}.{format}")
+
+
+@app.post("/api/assignments/{aid}/submissions/{roll}/regrade", status_code=202)
+def teacher_regrade(aid: str, roll: str):
+    try:
+        storage.requeue(aid, roll)
+    except (ValueError, FileNotFoundError):
+        raise HTTPException(404, "submission not found")
+    except PermissionError as e:
+        raise HTTPException(409, str(e))
+    jobs.enqueue(aid, storage.normalize_roll(roll))
+    return {"assignment_id": aid, "roll_number": storage.normalize_roll(roll), "state": "queued"}
 # Serve the plain HTML/CSS/JS frontend. Must come after the API routes.
 app.mount("/", StaticFiles(directory=storage.REPO_ROOT / "frontend", html=True), name="frontend")

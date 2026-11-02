@@ -1,9 +1,10 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 from langchain_ollama import ChatOllama
 from langgraph.graph import StateGraph, MessagesState, START, END
 
-load_dotenv("D:\Autograder\.env")
+load_dotenv(Path(__file__).resolve().parents[3] / ".env")
 
 llm = ChatOllama(
     model=os.getenv("OLLAMA_MODEL", "qwen2.5:0.5b"),

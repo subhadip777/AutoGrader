@@ -1,0 +1,1047 @@
+{
+  "report_version": 1,
+  "assignment": {
+    "id": "CLI",
+    "title": "add_two_integers"
+  },
+  "student": {
+    "name": "wrong_output",
+    "roll_number": "WRONG_OUTPUT"
+  },
+  "submission": {
+    "file": "solution.c",
+    "attempt": 1,
+    "submitted_at": "",
+    "sha256": "cb5d3d5079c9f9b87741c32c922750dc03eae2d736228ef9807ce5b95a9bbfcf",
+    "lines": 15
+  },
+  "graded_at": "2026-11-02T20:19:09+00:00",
+  "grade": 56.0,
+  "max_grade": 100.0,
+  "coverage": 0.9,
+  "complete": false,
+  "provisional": true,
+  "incomplete_metrics": [
+    "readability"
+  ],
+  "partial_metrics": [
+    "structure"
+  ],
+  "flags": [
+    "unavailable:readability"
+  ],
+  "first_pass": {
+    "compiled": true,
+    "compile_flags": "-O2 -std=c11",
+    "compiler_output": "",
+    "smoke_ok": true,
+    "smoke": {
+      "status": "ok",
+      "explanation": "",
+      "test_id": "T001",
+      "returncode": 0,
+      "signal": null,
+      "cpu_ms": 3.904,
+      "wall_ms": 6.121,
+      "max_rss_kb": 9944
+    },
+    "suspected_infinite_loop": false,
+    "static_sanity": {
+      "checks": {
+        "has_main": true,
+        "reads_input": true,
+        "writes_output": true,
+        "main_returns": true
+      },
+      "notes": []
+    }
+  },
+  "metrics": [
+    {
+      "name": "correctness",
+      "analyzer": "io_tests",
+      "weight": 0.2,
+      "status": "ok",
+      "score": 0.0,
+      "feedback": "0 of 10 tests pass. First failure (T001): line 1: expected '12' but got 'Sum = 12'.",
+      "evidence": {
+        "tests_passed": 0,
+        "tests_total": 10,
+        "by_status": {
+          "wrong_answer": 10
+        },
+        "comparison": "trailing_ws",
+        "failing": [
+          {
+            "id": "T001",
+            "category": "typical",
+            "status": "wrong_answer",
+            "passed": false,
+            "input": "7 5\n",
+            "expected": "12\n",
+            "actual": "Sum = 12\n",
+            "stderr": "",
+            "explanation": "line 1: expected '12' but got 'Sum = 12'",
+            "test_reason": "The sample from the statement: 7 + 5 = 12."
+          },
+          {
+            "id": "T002",
+            "category": "typical",
+            "status": "wrong_answer",
+            "passed": false,
+            "input": "10 20\n",
+            "expected": "30\n",
+            "actual": "Sum = 30\n",
+            "stderr": "",
+            "explanation": "line 1: expected '30' but got 'Sum = 30'",
+            "test_reason": "Two positive numbers: 10 + 20 = 30."
+          },
+          {
+            "id": "T003",
+            "category": "negatives",
+            "status": "wrong_answer",
+            "passed": false,
+            "input": "-5 12\n",
+            "expected": "7\n",
+            "actual": "Sum = 7\n",
+            "stderr": "",
+            "explanation": "line 1: expected '7' but got 'Sum = 7'",
+            "test_reason": "A negative and a positive number: -5 + 12 = 7."
+          },
+          {
+            "id": "T004",
+            "category": "negatives",
+            "status": "wrong_answer",
+            "passed": false,
+            "input": "-7 -8\n",
+            "expected": "-15\n",
+            "actual": "Sum = -15\n",
+            "stderr": "",
+            "explanation": "line 1: expected '-15' but got 'Sum = -15'",
+            "test_reason": "Two negative numbers: -7 + -8 = -15."
+          },
+          {
+            "id": "T005",
+            "category": "zero",
+            "status": "wrong_answer",
+            "passed": false,
+            "input": "0 0\n",
+            "expected": "0\n",
+            "actual": "Sum = 0\n",
+            "stderr": "",
+            "explanation": "line 1: expected '0' but got 'Sum = 0'",
+            "test_reason": "Both zero: 0 + 0 = 0."
+          }
+        ],
+        "failing_total": 10,
+        "results": [
+          {
+            "id": "T001",
+            "status": "wrong_answer"
+          },
+          {
+            "id": "T002",
+            "status": "wrong_answer"
+          },
+          {
+            "id": "T003",
+            "status": "wrong_answer"
+          },
+          {
+            "id": "T004",
+            "status": "wrong_answer"
+          },
+          {
+            "id": "T005",
+            "status": "wrong_answer"
+          },
+          {
+            "id": "T006",
+            "status": "wrong_answer"
+          },
+          {
+            "id": "T007",
+            "status": "wrong_answer"
+          },
+          {
+            "id": "T008",
+            "status": "wrong_answer"
+          },
+          {
+            "id": "T009",
+            "status": "wrong_answer"
+          },
+          {
+            "id": "T010",
+            "status": "wrong_answer"
+          }
+        ]
+      },
+      "deterministic": true,
+      "suggestions": [
+        "Compare your output format character by character with the examples in the statement."
+      ],
+      "timings": {
+        "T001": {
+          "cpu_ms": 4.181,
+          "max_rss_kb": 10004
+        },
+        "T002": {
+          "cpu_ms": 2.743,
+          "max_rss_kb": 10012
+        },
+        "T003": {
+          "cpu_ms": 4.09,
+          "max_rss_kb": 10016
+        },
+        "T004": {
+          "cpu_ms": 3.845,
+          "max_rss_kb": 10016
+        },
+        "T005": {
+          "cpu_ms": 4.114,
+          "max_rss_kb": 10016
+        },
+        "T006": {
+          "cpu_ms": 4.46,
+          "max_rss_kb": 10020
+        },
+        "T007": {
+          "cpu_ms": 2.533,
+          "max_rss_kb": 10020
+        },
+        "T008": {
+          "cpu_ms": 1.429,
+          "max_rss_kb": 10024
+        },
+        "T009": {
+          "cpu_ms": 3.678,
+          "max_rss_kb": 10024
+        },
+        "T010": {
+          "cpu_ms": 1.589,
+          "max_rss_kb": 10032
+        }
+      },
+      "contribution": 0.0
+    },
+    {
+      "name": "syntax",
+      "analyzer": "compiler_warnings",
+      "weight": 0.1,
+      "status": "ok",
+      "score": 1.0,
+      "feedback": "No warnings with -Wall -Wextra -Werror -std=c11.",
+      "evidence": {
+        "flags": "-Wall -Wextra -Werror -std=c11",
+        "warnings": 0,
+        "by_flag": {},
+        "diagnostics": [],
+        "werror_build_ok": true
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 10.0
+    },
+    {
+      "name": "structure",
+      "analyzer": "static_analysis",
+      "weight": 0.1,
+      "status": "partial",
+      "score": 0.6,
+      "feedback": "Cppcheck unavailable (cppcheck is not installed in the sandbox), its 40% share scored 0.",
+      "evidence": {
+        "functions": [
+          {
+            "name": "add",
+            "start_line": 4,
+            "end_line": 6,
+            "length": 3,
+            "nloc": 3,
+            "cyclomatic": 1,
+            "parameters": 2
+          },
+          {
+            "name": "main",
+            "start_line": 8,
+            "end_line": 15,
+            "length": 8,
+            "nloc": 8,
+            "cyclomatic": 2,
+            "parameters": 0
+          }
+        ],
+        "max_cyclomatic": 8,
+        "max_function_length": 40,
+        "lizard_score": 1.0,
+        "cppcheck_score": null,
+        "cppcheck_available": false,
+        "cppcheck_unavailable_reason": "cppcheck is not installed in the sandbox",
+        "cppcheck_findings": []
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 6.0
+    },
+    {
+      "name": "modularity",
+      "analyzer": "function_split",
+      "weight": 0.1,
+      "status": "ok",
+      "score": 1.0,
+      "feedback": "2 function(s) defined (add(), main()); 2 expected.",
+      "evidence": {
+        "functions_defined": 2,
+        "helpers": [
+          "add"
+        ],
+        "expected_min": 2,
+        "expect_helpers": true,
+        "main_length": 8
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 10.0
+    },
+    {
+      "name": "logical",
+      "analyzer": "edge_case_runner",
+      "weight": 0.1,
+      "status": "ok",
+      "score": 0.0,
+      "feedback": "0 of 32 edge-case checks pass. Fails on zero: line 1: expected '0' but got 'Sum = 0'.",
+      "evidence": {
+        "checks_passed": 0,
+        "checks_total": 32,
+        "themes": [
+          "negatives",
+          "zero",
+          "int_overflow"
+        ],
+        "input_format": "from rules.json",
+        "reference_solution": true,
+        "notes": [],
+        "failing": [
+          {
+            "kind": "category_test",
+            "theme": "zero",
+            "reason": "accepted test T005 (zero): Both zero: 0 + 0 = 0.",
+            "status": "wrong_answer",
+            "passed": false,
+            "input": "0 0\n",
+            "expected": "0\n",
+            "actual": "Sum = 0\n",
+            "explanation": "line 1: expected '0' but got 'Sum = 0'"
+          },
+          {
+            "kind": "category_test",
+            "theme": "negatives",
+            "reason": "accepted test T003 (negatives): A negative and a positive number: -5 + 12 = 7.",
+            "status": "wrong_answer",
+            "passed": false,
+            "input": "-5 12\n",
+            "expected": "7\n",
+            "actual": "Sum = 7\n",
+            "explanation": "line 1: expected '7' but got 'Sum = 7'"
+          },
+          {
+            "kind": "category_test",
+            "theme": "negatives",
+            "reason": "accepted test T004 (negatives): Two negative numbers: -7 + -8 = -15.",
+            "status": "wrong_answer",
+            "passed": false,
+            "input": "-7 -8\n",
+            "expected": "-15\n",
+            "actual": "Sum = -15\n",
+            "explanation": "line 1: expected '-15' but got 'Sum = -15'"
+          },
+          {
+            "kind": "category_test",
+            "theme": "zero",
+            "reason": "accepted test T006 (zero): Zero plus a negative number: 0 + -42 = -42.",
+            "status": "wrong_answer",
+            "passed": false,
+            "input": "0 -42\n",
+            "expected": "-42\n",
+            "actual": "Sum = -42\n",
+            "explanation": "line 1: expected '-42' but got 'Sum = -42'"
+          },
+          {
+            "kind": "format_variant",
+            "theme": "trailing_newline",
+            "reason": "T001 with the final newline toggled; the answer must not change",
+            "status": "wrong_answer",
+            "passed": false,
+            "input": "7 5",
+            "expected": "12\n",
+            "actual": "Sum = 12\n",
+            "explanation": "line 1: expected '12' but got 'Sum = 12'"
+          }
+        ],
+        "failing_total": 32,
+        "checks": [
+          {
+            "kind": "category_test",
+            "theme": "negatives",
+            "status": "wrong_answer",
+            "reason": "accepted test T003 (negatives): A negative and a positive number: -5 + 12 = 7."
+          },
+          {
+            "kind": "category_test",
+            "theme": "negatives",
+            "status": "wrong_answer",
+            "reason": "accepted test T004 (negatives): Two negative numbers: -7 + -8 = -15."
+          },
+          {
+            "kind": "category_test",
+            "theme": "zero",
+            "status": "wrong_answer",
+            "reason": "accepted test T005 (zero): Both zero: 0 + 0 = 0."
+          },
+          {
+            "kind": "category_test",
+            "theme": "zero",
+            "status": "wrong_answer",
+            "reason": "accepted test T006 (zero): Zero plus a negative number: 0 + -42 = -42."
+          },
+          {
+            "kind": "format_variant",
+            "theme": "trailing_newline",
+            "status": "wrong_answer",
+            "reason": "T001 with the final newline toggled; the answer must not change"
+          },
+          {
+            "kind": "format_variant",
+            "theme": "extra_spaces",
+            "status": "wrong_answer",
+            "reason": "T001 with extra spaces between values; the answer must not change"
+          },
+          {
+            "kind": "generated",
+            "theme": "negatives",
+            "status": "wrong_answer",
+            "reason": "all values negative"
+          },
+          {
+            "kind": "generated",
+            "theme": "negatives",
+            "status": "wrong_answer",
+            "reason": "a negative value mixed with positive ones"
+          },
+          {
+            "kind": "generated",
+            "theme": "zero",
+            "status": "wrong_answer",
+            "reason": "all values zero"
+          },
+          {
+            "kind": "generated",
+            "theme": "zero",
+            "status": "wrong_answer",
+            "reason": "one value zero"
+          },
+          {
+            "kind": "generated",
+            "theme": "int_overflow",
+            "status": "undefined_behaviour",
+            "reason": "INT_MAX plus a positive value overflows a 32-bit int"
+          },
+          {
+            "kind": "generated",
+            "theme": "int_overflow",
+            "status": "undefined_behaviour",
+            "reason": "INT_MIN minus a value overflows a 32-bit int"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "wrong_answer",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          }
+        ]
+      },
+      "deterministic": true,
+      "suggestions": [
+        "Values near INT_MAX overflow an int: use long long, or check the range before the arithmetic.",
+        "Read input with scanf-style tokens so extra spaces and a missing final newline do not matter.",
+        "Test your program with negative numbers and zero."
+      ],
+      "timings": {},
+      "contribution": 0.0
+    },
+    {
+      "name": "complexity",
+      "analyzer": "complexity_estimator",
+      "weight": 0.1,
+      "status": "ok",
+      "score": 1.0,
+      "feedback": "Measured growth is consistent with O(1), within the required O(1) (medium confidence).",
+      "evidence": {
+        "required": "O(1)",
+        "scaling": {
+          "mode": "value",
+          "fields": [
+            "a",
+            "b"
+          ]
+        },
+        "input_format": "from rules.json",
+        "repeats": 5,
+        "measurements": [
+          {
+            "n": 1,
+            "min_cpu_ms": 3.114,
+            "median_cpu_ms": 3.755,
+            "cpu_ms": [
+              4.536,
+              4.176,
+              3.334,
+              3.114
+            ],
+            "wall_ms": [
+              5.423,
+              5.849,
+              5.405,
+              5.824,
+              5.407
+            ]
+          },
+          {
+            "n": 10,
+            "min_cpu_ms": 1.606,
+            "median_cpu_ms": 3.1965,
+            "cpu_ms": [
+              1.606,
+              4.444,
+              2.068,
+              4.325
+            ],
+            "wall_ms": [
+              6.437,
+              5.978,
+              7.183,
+              5.843,
+              6.555
+            ]
+          },
+          {
+            "n": 100,
+            "min_cpu_ms": 1.865,
+            "median_cpu_ms": 4.112,
+            "cpu_ms": [
+              3.88,
+              1.865,
+              4.443,
+              4.344
+            ],
+            "wall_ms": [
+              7.314,
+              6.235,
+              5.26,
+              6.07,
+              6.462
+            ]
+          },
+          {
+            "n": 1000,
+            "min_cpu_ms": 2.168,
+            "median_cpu_ms": 3.8075,
+            "cpu_ms": [
+              3.869,
+              3.868,
+              3.747,
+              2.168
+            ],
+            "wall_ms": [
+              5.231,
+              5.784,
+              5.507,
+              6.872,
+              5.884
+            ]
+          },
+          {
+            "n": 10000,
+            "min_cpu_ms": 2.82,
+            "median_cpu_ms": 4.377,
+            "cpu_ms": [
+              4.945,
+              4.146,
+              2.82,
+              4.608
+            ],
+            "wall_ms": [
+              5.998,
+              6.466,
+              5.649,
+              6.488,
+              6.127
+            ]
+          }
+        ],
+        "failures": [],
+        "method": "median CPU time per size (first run dropped), least-squares fit of a + b*f(n)",
+        "limitations": "Empirical timing over a few sizes; constant factors, I/O and noise can hide or imitate growth, so the class is an estimate, not a proof.",
+        "estimated": "O(1)",
+        "confidence": "medium",
+        "fit": {
+          "class": "O(1)",
+          "fits": {
+            "O(log n)": {
+              "intercept_ms": 2.2647,
+              "slope_ms": 0.0968,
+              "sse": 1.61502,
+              "r2": 0.0032
+            },
+            "O(n)": {
+              "intercept_ms": 2.1732,
+              "slope_ms": 0.6363,
+              "sse": 1.311221,
+              "r2": 0.1907
+            },
+            "O(n log n)": {
+              "intercept_ms": 2.177,
+              "slope_ms": 0.6371,
+              "sse": 1.306784,
+              "r2": 0.1935
+            },
+            "O(n^2)": {
+              "intercept_ms": 2.1867,
+              "slope_ms": 0.633,
+              "sse": 1.301257,
+              "r2": 0.1969
+            },
+            "O(n^3)": {
+              "intercept_ms": 2.1881,
+              "slope_ms": 0.6319,
+              "sse": 1.300955,
+              "r2": 0.197
+            }
+          },
+          "growth_ms": 0.0,
+          "noise_threshold_ms": 4.7715,
+          "rank_correlation": 0.0,
+          "confidence": "medium",
+          "reason": "time grew by only 0.000 ms over the sizes, within measurement noise"
+        }
+      },
+      "deterministic": false,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 10.0
+    },
+    {
+      "name": "memory_safety",
+      "analyzer": "sanitizer_run",
+      "weight": 0.1,
+      "status": "ok",
+      "score": 1.0,
+      "feedback": "No memory errors, leaks or undefined behaviour detected on the tests run.",
+      "evidence": {
+        "tools": {
+          "sanitizers": "ok",
+          "valgrind": "valgrind is not installed in the sandbox",
+          "perf": "not available: perf_event_open is blocked in the sandbox; CPU time and peak memory are reported instead"
+        },
+        "flags": "-fsanitize=address,undefined -g -O1 -fno-omit-frame-pointer -std=c11",
+        "tests_run": [
+          "T001",
+          "T002",
+          "T003",
+          "T004",
+          "T005"
+        ],
+        "valgrind_tests": [],
+        "findings": [],
+        "categories": []
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {
+        "profile": [
+          {
+            "test": "T001",
+            "cpu_ms": 21.706,
+            "max_rss_kb": 9984
+          },
+          {
+            "test": "T002",
+            "cpu_ms": 22.111,
+            "max_rss_kb": 9984
+          },
+          {
+            "test": "T003",
+            "cpu_ms": 21.896,
+            "max_rss_kb": 9988
+          },
+          {
+            "test": "T004",
+            "cpu_ms": 19.398,
+            "max_rss_kb": 9988
+          },
+          {
+            "test": "T005",
+            "cpu_ms": 23.733,
+            "max_rss_kb": 9992
+          }
+        ]
+      },
+      "contribution": 10.0
+    },
+    {
+      "name": "readability",
+      "analyzer": "llm_review",
+      "weight": 0.1,
+      "status": "unavailable",
+      "score": null,
+      "feedback": "Readability was not reviewed: Ollama is not reachable at http://localhost:11434.",
+      "evidence": {
+        "reason": "ollama unreachable"
+      },
+      "deterministic": false,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 0.0
+    },
+    {
+      "name": "originality",
+      "analyzer": "similarity_flag",
+      "weight": 0.1,
+      "status": "ok",
+      "score": 1.0,
+      "feedback": "Highest similarity 0.48 against 7 other program(s); below the 0.85 threshold.",
+      "evidence": {
+        "max_similarity": 0.4845,
+        "flag_threshold": 0.85,
+        "flagged": false,
+        "compared_with": 7,
+        "tokens": 64,
+        "method": "Jaccard of 6-token shingles",
+        "note": "A flag only asks for human review; it never changes the score."
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 10.0
+    }
+  ],
+  "failed_tests": [
+    {
+      "id": "T001",
+      "category": "typical",
+      "status": "wrong_answer",
+      "passed": false,
+      "input": "7 5\n",
+      "expected": "12\n",
+      "actual": "Sum = 12\n",
+      "stderr": "",
+      "explanation": "line 1: expected '12' but got 'Sum = 12'",
+      "test_reason": "The sample from the statement: 7 + 5 = 12."
+    },
+    {
+      "id": "T002",
+      "category": "typical",
+      "status": "wrong_answer",
+      "passed": false,
+      "input": "10 20\n",
+      "expected": "30\n",
+      "actual": "Sum = 30\n",
+      "stderr": "",
+      "explanation": "line 1: expected '30' but got 'Sum = 30'",
+      "test_reason": "Two positive numbers: 10 + 20 = 30."
+    },
+    {
+      "id": "T003",
+      "category": "negatives",
+      "status": "wrong_answer",
+      "passed": false,
+      "input": "-5 12\n",
+      "expected": "7\n",
+      "actual": "Sum = 7\n",
+      "stderr": "",
+      "explanation": "line 1: expected '7' but got 'Sum = 7'",
+      "test_reason": "A negative and a positive number: -5 + 12 = 7."
+    },
+    {
+      "id": "T004",
+      "category": "negatives",
+      "status": "wrong_answer",
+      "passed": false,
+      "input": "-7 -8\n",
+      "expected": "-15\n",
+      "actual": "Sum = -15\n",
+      "stderr": "",
+      "explanation": "line 1: expected '-15' but got 'Sum = -15'",
+      "test_reason": "Two negative numbers: -7 + -8 = -15."
+    },
+    {
+      "id": "T005",
+      "category": "zero",
+      "status": "wrong_answer",
+      "passed": false,
+      "input": "0 0\n",
+      "expected": "0\n",
+      "actual": "Sum = 0\n",
+      "stderr": "",
+      "explanation": "line 1: expected '0' but got 'Sum = 0'",
+      "test_reason": "Both zero: 0 + 0 = 0."
+    }
+  ],
+  "counter_tests": [
+    {
+      "kind": "category_test",
+      "theme": "zero",
+      "reason": "accepted test T005 (zero): Both zero: 0 + 0 = 0.",
+      "status": "wrong_answer",
+      "passed": false,
+      "input": "0 0\n",
+      "expected": "0\n",
+      "actual": "Sum = 0\n",
+      "explanation": "line 1: expected '0' but got 'Sum = 0'"
+    },
+    {
+      "kind": "category_test",
+      "theme": "negatives",
+      "reason": "accepted test T003 (negatives): A negative and a positive number: -5 + 12 = 7.",
+      "status": "wrong_answer",
+      "passed": false,
+      "input": "-5 12\n",
+      "expected": "7\n",
+      "actual": "Sum = 7\n",
+      "explanation": "line 1: expected '7' but got 'Sum = 7'"
+    },
+    {
+      "kind": "category_test",
+      "theme": "negatives",
+      "reason": "accepted test T004 (negatives): Two negative numbers: -7 + -8 = -15.",
+      "status": "wrong_answer",
+      "passed": false,
+      "input": "-7 -8\n",
+      "expected": "-15\n",
+      "actual": "Sum = -15\n",
+      "explanation": "line 1: expected '-15' but got 'Sum = -15'"
+    },
+    {
+      "kind": "category_test",
+      "theme": "zero",
+      "reason": "accepted test T006 (zero): Zero plus a negative number: 0 + -42 = -42.",
+      "status": "wrong_answer",
+      "passed": false,
+      "input": "0 -42\n",
+      "expected": "-42\n",
+      "actual": "Sum = -42\n",
+      "explanation": "line 1: expected '-42' but got 'Sum = -42'"
+    },
+    {
+      "kind": "format_variant",
+      "theme": "trailing_newline",
+      "reason": "T001 with the final newline toggled; the answer must not change",
+      "status": "wrong_answer",
+      "passed": false,
+      "input": "7 5",
+      "expected": "12\n",
+      "actual": "Sum = 12\n",
+      "explanation": "line 1: expected '12' but got 'Sum = 12'"
+    }
+  ],
+  "runtime": {
+    "smoke_cpu_ms": 3.904,
+    "smoke_wall_ms": 6.121,
+    "smoke_peak_rss_kb": 9944,
+    "note": "peak RSS includes about 10 MB used by the sandbox runner itself"
+  },
+  "suggestions": [
+    "Compare your output format character by character with the examples in the statement.",
+    "Values near INT_MAX overflow an int: use long long, or check the range before the arithmetic.",
+    "Read input with scanf-style tokens so extra spaces and a missing final newline do not matter.",
+    "Test your program with negative numbers and zero."
+  ],
+  "tool_versions": {
+    "gcc": "13.3.0",
+    "lizard": "1.25.0",
+    "sandbox_backend": "wsl",
+    "sandbox_isolation": "nobody"
+  },
+  "rules_sha256": "bfd9c110015e6b07da2f789156cd3b32df372073b446eaea2c04950cfd6ea7e2",
+  "tests_sha256": "ee035830dd6f85e5f2b9de0582df01d8fea8ea8e2831d4228d8a234f9174abfa",
+  "reproducibility": {
+    "fingerprint": "ccd9873277e09b1a2a178d38f6d568a5d8569285539e7cf1fc06b4ed668d87eb",
+    "deterministic_metrics": [
+      "correctness",
+      "syntax",
+      "structure",
+      "modularity",
+      "logical",
+      "memory_safety",
+      "originality"
+    ],
+    "nondeterministic_metrics": [
+      "complexity",
+      "readability"
+    ],
+    "note": "Deterministic metrics give identical results for the same source, rules, tests and tool versions. Readability (LLM) and complexity (timing) can vary slightly between runs."
+  },
+  "usefulness_limitations": {
+    "usefulness": [
+      {
+        "use_case": "First-pass grading of large classes",
+        "example": "300 submissions for a sorting assignment are compiled, tested and scored overnight; the instructor only reads reports whose grade is incomplete or flagged.",
+        "benefit": "The same rules are applied to every student, and every point lost is explained."
+      },
+      {
+        "use_case": "Immediate feedback while students practise",
+        "example": "A student whose sum overflows for INT_MAX + 1 gets that exact input, the expected output and the UBSan message within a minute, and can resubmit.",
+        "benefit": "Concrete counter-examples teach more than a bare score."
+      },
+      {
+        "use_case": "Plagiarism and LLM-copy triage",
+        "example": "Two submissions with renamed variables reach similarity 0.93 against a 0.85 threshold and are flagged; the instructor checks only those pairs.",
+        "benefit": "Review time goes to the suspicious cases only, and no one is penalised automatically."
+      },
+      {
+        "use_case": "Coding-interview and hiring screens",
+        "example": "Candidates are ranked by correctness, edge cases and memory safety, with a per-metric explanation for every rejection.",
+        "benefit": "Fast, explainable first-round filtering."
+      }
+    ],
+    "limitations": [
+      {
+        "limitation": "Tests cannot prove correctness",
+        "example": "A program that special-cases the exact hidden inputs passes every test and still gets full correctness marks.",
+        "mitigation": "Upload a reference solution so random counter-tests are compared against it."
+      },
+      {
+        "limitation": "LLM-written expected outputs can be wrong",
+        "example": "The model claims the digit sum of -1234 is -10; a correct program printing 10 fails that test.",
+        "mitigation": "The teacher review step before Accept; edit or regenerate doubtful tests."
+      },
+      {
+        "limitation": "Timing-based complexity is an estimate",
+        "example": "An O(n log n) sort and an O(n) loop can produce the same curve at n <= 32000 when input reading dominates, so both are reported as O(n).",
+        "mitigation": "Use larger sizes in the rules; the report gives the fit quality and a confidence level."
+      },
+      {
+        "limitation": "Similarity misses rewritten copies and over-flags tiny programs",
+        "example": "An LLM answer rewritten with a different loop structure scores 0.4 and is not flagged, while two honest 6-line add-two-numbers programs look identical.",
+        "mitigation": "Flags are only review requests; short programs are never flagged."
+      }
+    ]
+  }
+}

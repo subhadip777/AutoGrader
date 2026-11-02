@@ -1,0 +1,25 @@
+{
+  "problem": "sort_numbers",
+  "time_limit_s": 2,
+  "memory_limit_mb": 64,
+  "input_spec": {
+    "lines": [
+      [{"name": "n", "type": "int", "min": 1, "max": 200000}],
+      [{"name": "values", "type": "int_list", "length": "n", "min": -1000000000, "max": 1000000000}]
+    ],
+    "size_field": "n"
+  },
+  "metrics": [
+    { "name": "correctness", "analyzer": "io_tests", "weight": 0.30, "params": {} },
+    { "name": "syntax", "analyzer": "compiler_warnings", "weight": 0.10, "params": { "flags": "-Wall -Wextra -std=c11" } },
+    { "name": "structure", "analyzer": "static_analysis", "weight": 0.10, "params": { "max_cyclomatic": 10, "max_function_length": 50 } },
+    { "name": "modularity", "analyzer": "function_split", "weight": 0.05, "params": { "expect_helpers": true, "min_functions": 2 } },
+    { "name": "logical", "analyzer": "edge_case_runner", "weight": 0.15,
+      "params": { "cases": ["negatives", "zero", "duplicates", "single", "sorted", "reverse_sorted", "boundary", "large"], "random_tests": 15 } },
+    { "name": "complexity", "analyzer": "complexity_estimator", "weight": 0.15,
+      "params": { "required": "O(n log n)", "sizes": [1000, 2000, 4000, 8000, 16000, 32000], "repeats": 5 } },
+    { "name": "memory_safety", "analyzer": "sanitizer_run", "weight": 0.05, "params": { "flags": "-fsanitize=address,undefined" } },
+    { "name": "readability", "analyzer": "llm_review", "weight": 0.05, "params": { "temperature": 0, "seed": 42 } },
+    { "name": "originality", "analyzer": "similarity_flag", "weight": 0.05, "params": { "flag_threshold": 0.85 } }
+  ]
+}

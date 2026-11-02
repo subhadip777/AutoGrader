@@ -10,7 +10,8 @@ import shutil
 import time
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-ROOT = REPO_ROOT / "data" / "Assignments"
+# AUTOGRADER_DATA_DIR moves the data folder (for demos and tests); default is <repo>/data
+ROOT = Path(os.getenv("AUTOGRADER_DATA_DIR") or REPO_ROOT / "data") / "Assignments"
 ID_RE = re.compile(r"^ASG-[A-F0-9]{6}$")
 _lock = threading.Lock()
 
@@ -56,7 +57,8 @@ def _new_id() -> str:
             return aid
 
 
-def create_assignment(title: str, statement: str, policy: dict, num_tests: int) -> dict:
+def create_assignment(title: str, statement: str, policy: dict, num_tests: int,
+                      reference_solution: str | None = None) -> dict:
     ROOT.mkdir(parents=True, exist_ok=True)
     aid = _new_id()
     base = ROOT / aid
@@ -70,12 +72,15 @@ def create_assignment(title: str, statement: str, policy: dict, num_tests: int) 
         "status": "draft",
         "num_tests": num_tests,
         "tests_accepted": False,
+        "has_reference": bool(reference_solution),
         "rules_sha256": hashlib.sha256(rules_canonical.encode()).hexdigest(),
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
     _write_atomic(base / "Problem" / "problem.txt", statement)
     _write_atomic(base / "Problem" / "rules.json", json.dumps(policy, indent=2))
     _write_atomic(base / "Problem" / "testcases.json", "[]")
+    if reference_solution:
+        _write_atomic(base / "Problem" / "reference.c", reference_solution)
     _write_atomic(base / "meta.json", json.dumps(meta, indent=2))
     return meta
 
@@ -119,6 +124,31 @@ def read_rules(aid: str) -> dict:
 
 def read_tests(aid: str) -> list[dict]:
     return json.loads((_dir(aid) / "Problem" / "testcases.json").read_text(encoding="utf-8"))
+
+
+def read_reference(aid: str) -> str | None:
+    """The teacher's optional reference solution (never shown to students)."""
+    p = _dir(aid) / "Problem" / "reference.c"
+    return p.read_text(encoding="utf-8") if p.exists() else None
+
+
+def read_corpus(aid: str, exclude_roll: str) -> list[dict]:
+    """Programs to compare a submission with: the current submission of every other roll
+    number, plus any known solutions the teacher dropped into Problem/corpus/*.c."""
+    d = _dir(aid)
+    out = []
+    subs = d / "Submissions"
+    if subs.is_dir():
+        for s in sorted(subs.iterdir()):
+            if s.is_dir() and s.name != exclude_roll and ROLL_RE.match(s.name) and (s / "solution.c").exists():
+                out.append({"label": s.name, "kind": "submission",
+                            "source": (s / "solution.c").read_text(encoding="utf-8", errors="replace")})
+    corpus = d / "Problem" / "corpus"
+    if corpus.is_dir():
+        for f in sorted(corpus.glob("*.c"))[:200]:
+            out.append({"label": f"corpus/{f.name}", "kind": "corpus",
+                        "source": f.read_text(encoding="utf-8", errors="replace")})
+    return out
 
 
 def write_tests(aid: str, tests: list[dict]) -> None:
@@ -290,17 +320,30 @@ def create_submission(aid: str, name: str, roll_raw: str, filename: str, source:
         return info
 
 
-def set_submission_status(aid: str, roll: str, state: str, message: str = "") -> None:
+def set_submission_status(aid: str, roll: str, state: str, message: str = "", **extra) -> None:
     d = _sub_dir(aid, roll)
     _write_atomic(d / "status.json", json.dumps(
-        {"state": state, "message": message, "updated_at": _now()}, indent=2))
+        {"state": state, "message": message, "updated_at": _now(), **extra}, indent=2))
+
+
+def _summary(report: dict | None) -> dict:
+    if not report:
+        return {}
+    return {"grade": report.get("grade"), "max_grade": report.get("max_grade"),
+            "complete": report.get("complete"), "provisional": report.get("provisional"),
+            "flags": report.get("flags", [])}
 
 
 def get_submission_status(aid: str, roll: str) -> dict:
     d = _sub_dir(aid, roll)
     st = _read_json(d / "status.json", {"state": "unknown", "message": ""})
     info = _read_json(d / "info.json", {})
-    return {"state": st.get("state"), "message": st.get("message", ""), "attempt": info.get("attempt")}
+    out = {"state": st.get("state"), "message": st.get("message", ""), "attempt": info.get("attempt"),
+           "stage": st.get("stage"), "step": st.get("step"), "steps": st.get("steps"),
+           "updated_at": st.get("updated_at")}
+    if st.get("state") == "done":
+        out.update(_summary(_read_json(d / "report.json", None)))
+    return out
 
 
 def read_submission(aid: str, roll: str) -> tuple[dict, bytes]:
@@ -308,33 +351,107 @@ def read_submission(aid: str, roll: str) -> tuple[dict, bytes]:
     return _read_json(d / "info.json", {}), (d / "solution.c").read_bytes()
 
 
-def write_report(aid: str, roll: str, text: str) -> None:
+def write_report(aid: str, roll: str, text: str, report: dict | None = None, review: dict | None = None) -> None:
+    """Save report.txt, and report.json / review.json when given. JSON files are written first,
+    so a reader who sees status "done" always finds all of them."""
     d = _sub_dir(aid, roll)
+    if report is not None:
+        _write_atomic(d / "report.json", json.dumps(report, indent=2))
+    if review is not None:
+        _write_atomic(d / "review.json", json.dumps(review, indent=2))
     _write_bytes_atomic(d / "report.txt", text.encode("utf-8"))
 
 
-def report_path(aid: str, roll: str) -> Path:
+REPORT_FILES = {"txt": "report.txt", "json": "report.json"}
+
+
+def report_path(aid: str, roll: str, kind: str = "txt") -> Path:
+    if kind not in REPORT_FILES:
+        raise ValueError("unknown report format")
     d = _sub_dir(aid, roll)
     st = _read_json(d / "status.json", {})
-    p = d / "report.txt"
+    p = d / REPORT_FILES[kind]
     if st.get("state") != "done" or not p.exists():
         raise FileNotFoundError("report not ready")
     return p
 
 
-def reset_stale_submissions() -> None:
-    """A server restart kills background jobs, so mark unfinished submissions as failed."""
-    if not ROOT.exists():
-        return
-    for a in ROOT.iterdir():
-        subs = a / "Submissions"
-        if not subs.is_dir():
+def read_report(aid: str, roll: str) -> dict:
+    return json.loads(report_path(aid, roll, "json").read_text(encoding="utf-8"))
+
+
+def read_review(aid: str, roll: str) -> dict:
+    return _read_json(_sub_dir(aid, roll) / "review.json", {}) or {}
+
+
+def history(aid: str, roll: str) -> list[dict]:
+    """Every attempt of one student, oldest first; the current one is last."""
+    d = _sub_dir(aid, roll)
+    attempts = []
+    hist = d / "history"
+    folders = sorted(hist.iterdir(), key=lambda p: int(p.name.split("_")[-1])) if hist.is_dir() else []
+    for folder in folders + [d]:
+        info = _read_json(folder / "info.json", None)
+        if not info:
             continue
-        for d in subs.iterdir():
+        st = _read_json(folder / "status.json", {}) or {}
+        attempts.append({"attempt": info.get("attempt"), "submitted_at": info.get("submitted_at"),
+                         "sha256": info.get("sha256"), "state": st.get("state"),
+                         "current": folder == d, **_summary(_read_json(folder / "report.json", None))})
+    return attempts
+
+
+def list_submissions(aid: str) -> list[dict]:
+    """Teacher view: the current attempt of every student."""
+    subs = _dir(aid) / "Submissions"
+    out = []
+    if not subs.is_dir():
+        return out
+    for d in sorted(subs.iterdir()):
+        if not (d.is_dir() and ROLL_RE.match(d.name)):
+            continue
+        info = _read_json(d / "info.json", None)
+        if not info:
+            continue
+        st = _read_json(d / "status.json", {}) or {}
+        out.append({"roll_number": info.get("roll_number"), "name": info.get("name"),
+                    "attempt": info.get("attempt"), "submitted_at": info.get("submitted_at"),
+                    "state": st.get("state"), "message": st.get("message", ""),
+                    **_summary(_read_json(d / "report.json", None) if st.get("state") == "done" else None)})
+    return out
+
+
+def read_source(aid: str, roll: str) -> str:
+    return (_sub_dir(aid, roll) / "solution.c").read_text(encoding="utf-8", errors="replace")
+
+
+def requeue(aid: str, roll: str, message: str = "Queued for regrading") -> None:
+    with _lock:
+        d = _sub_dir(aid, roll)
+        st = _read_json(d / "status.json", {}) or {}
+        if st.get("state") in ACTIVE_STATES:
+            raise PermissionError("this submission is already being graded")
+        _write_atomic(d / "status.json", json.dumps(
+            {"state": "queued", "message": message, "updated_at": _now()}, indent=2))
+
+
+def reset_stale_submissions() -> list[tuple[str, str]]:
+    """A server restart kills background jobs. Grading is deterministic and the source is kept,
+    so unfinished submissions are put back in the queue; returns them as (assignment id, roll)."""
+    pending = []
+    if not ROOT.exists():
+        return pending
+    for a in sorted(ROOT.iterdir()):
+        subs = a / "Submissions"
+        if not (ID_RE.match(a.name) and subs.is_dir()):
+            continue
+        for d in sorted(subs.iterdir()):
             st = _read_json(d / "status.json", None)
-            if st and st.get("state") in ACTIVE_STATES:
+            if st and st.get("state") in ACTIVE_STATES and ROLL_RE.match(d.name) and (d / "solution.c").exists():
                 _write_atomic(d / "status.json", json.dumps({
-                    "state": "failed",
-                    "message": "Interrupted by a server restart. Please submit again.",
+                    "state": "queued",
+                    "message": "Interrupted by a server restart; grading again",
                     "updated_at": _now(),
                 }, indent=2))
+                pending.append((a.name, d.name))
+    return pending

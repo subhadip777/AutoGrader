@@ -1,0 +1,23 @@
+# The web app runs on the host (uvicorn) and starts one sandbox container per grading step.
+# This file builds the sandbox image and, optionally, runs Ollama in a container.
+#
+#   docker compose build sandbox            # build autograder-sandbox:2
+#   docker compose --profile llm up -d      # optional: Ollama on localhost:11434
+#   docker compose exec ollama ollama pull qwen2.5:3b
+services:
+  sandbox:
+    build: ./sandbox
+    image: autograder-sandbox:2
+    profiles: ["build"]     # never started as a service; the app runs it per job
+
+  ollama:
+    image: ollama/ollama:0.5.7
+    profiles: ["llm"]
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    restart: unless-stopped
+
+volumes:
+  ollama:

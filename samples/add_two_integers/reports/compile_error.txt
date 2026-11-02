@@ -1,0 +1,88 @@
+===== Grading report: add_two_integers (CLI) =====
+Student      : compile_error (COMPILE_ERROR)
+Attempt      : 1, submitted 
+Graded at    : 2026-11-02T20:17:54+00:00
+Source       : solution.c, 8 lines, sha256 58d9a8c0882c2177...
+
+Overall grade: 19.0 / 100   (PROVISIONAL, see notes)
+Measured     : 90% of the weight could be measured; unmeasured parts count as 0 until regraded.
+
+--- First pass ---
+Compiled     : NO (-O2 -std=c11)
+Compiler output:
+    sol.c: In function 'main':
+    sol.c:5:27: error: expected ';' before 'printf'
+        5 |     scanf("%d %d", &a, &b)
+          |                           ^
+          |                           ;
+        6 |     printf("%d\n", a + b);
+          |     ~~~~~~                 
+    sol.c:5:5: warning: ignoring return value of 'scanf' declared with attribute 'warn_unused_result' [-Wunused-result]
+        5 |     scanf("%d %d", &a, &b)
+          |     ^~~~~~~~~~~~~~~~~~~~~~
+
+--- Metrics ---
+Metric          Weight    Score   Points  Verdict
+correctness        20%   0.0/20      0.0  [skipped] Not run because the program does not compile.
+syntax             10%   0.0/10      0.0  [skipped] The program does not compile (line 5: expected ';' before 'printf').
+structure          10%   6.0/10      6.0  [partial] Cppcheck unavailable (cppcheck is not installed in the sandbox), its 40% share scored 0.
+modularity         10%   3.0/10      3.0  Only main() is defined; move separate steps (reading, computing, printing) into helper functions.
+logical            10%   0.0/10      0.0  [skipped] Not run because the program does not compile.
+complexity         10%   0.0/10      0.0  [skipped] Not run because the program does not compile.
+memory_safety      10%   0.0/10      0.0  [skipped] Not run because the program does not compile.
+readability        10%        -      0.0  [unavailable] Readability was not reviewed: Ollama is not reachable at http://localhost:11434.
+originality        10%  10.0/10     10.0  Highest similarity 0.53 against 7 other program(s); below the 0.85 threshold.
+
+--- Details ---
+- Compiler: line 5: error: expected ';' before 'printf'
+- Compiler: line 5: warning: ignoring return value of 'scanf' declared with
+  attribute 'warn_unused_result' -Wunused-result
+
+--- Suggestions to raise the grade ---
+- Fix the compilation errors first; nothing else can be tested until the
+  program builds.
+- Extract the computation into its own function and call it from main().
+
+--- Notes ---
+- readability could not be measured (Readability was not reviewed: Ollama is
+  not reachable at http://localhost:11434.) and counts as 0 until the
+  instructor regrades.
+- structure was only partly measured; see its verdict above.
+
+--- Usefulness & limitations of this evaluation ---
+Useful for:
+  1. First-pass grading of large classes
+     Example: 300 submissions for a sorting assignment are compiled, tested
+     and scored overnight; the instructor only reads reports whose grade is
+     incomplete or flagged.
+  2. Immediate feedback while students practise
+     Example: A student whose sum overflows for INT_MAX + 1 gets that exact
+     input, the expected output and the UBSan message within a minute, and can
+     resubmit.
+  3. Plagiarism and LLM-copy triage
+     Example: Two submissions with renamed variables reach similarity 0.93
+     against a 0.85 threshold and are flagged; the instructor checks only
+     those pairs.
+  4. Coding-interview and hiring screens
+     Example: Candidates are ranked by correctness, edge cases and memory
+     safety, with a per-metric explanation for every rejection.
+Limits of this report:
+  1. Tests cannot prove correctness
+     Example: A program that special-cases the exact hidden inputs passes
+     every test and still gets full correctness marks.
+  2. LLM-written expected outputs can be wrong
+     Example: The model claims the digit sum of -1234 is -10; a correct
+     program printing 10 fails that test.
+  3. Timing-based complexity is an estimate
+     Example: An O(n log n) sort and an O(n) loop can produce the same curve
+     at n <= 32000 when input reading dominates, so both are reported as O(n).
+  4. Similarity misses rewritten copies and over-flags tiny programs
+     Example: An LLM answer rewritten with a different loop structure scores
+     0.4 and is not flagged, while two honest 6-line add-two-numbers programs
+     look identical.
+
+--- Reproducibility ---
+Tools        : gcc 13.3.0, lizard 1.25.0, sandbox_backend wsl, sandbox_isolation nobody
+Rules hash   : sha256:bfd9c110015e6b07da2f789156cd3b32df372073b446eaea2c04950cfd6ea7e2
+Tests hash   : sha256:ee035830dd6f85e5f2b9de0582df01d8fea8ea8e2831d4228d8a234f9174abfa
+Fingerprint  : 740c8d357eef9bec61a327c838a12a7b90d942d371a5a399de4222752ad6c719

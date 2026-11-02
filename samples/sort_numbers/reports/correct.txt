@@ -1,0 +1,76 @@
+===== Grading report: sort_numbers (CLI) =====
+Student      : correct (CORRECT)
+Attempt      : 1, submitted 
+Graded at    : 2026-11-02T20:19:24+00:00
+Source       : solution.c, 47 lines, sha256 c12943a0ce317c9c...
+
+Overall grade: 91.0 / 100   (PROVISIONAL, see notes)
+Measured     : 95% of the weight could be measured; unmeasured parts count as 0 until regraded.
+
+--- First pass ---
+Compiled     : yes (-O2 -std=c11)
+Smoke run    : ok, 2.01 ms CPU
+
+--- Metrics ---
+Metric          Weight    Score   Points  Verdict
+correctness        30%  30.0/30     30.0  10 of 10 tests pass.
+syntax             10%  10.0/10     10.0  No warnings with -Wall -Wextra -std=c11.
+structure          10%   6.0/10      6.0  [partial] Cppcheck unavailable (cppcheck is not installed in the sandbox), its 40% share scored 0.
+modularity          5%    5.0/5      5.0  4 function(s) defined (compare_ints(), read_values(), print_values(), main()); 2 expected.
+logical            15%  15.0/15     15.0  34 of 34 edge-case checks pass.
+complexity         15%  15.0/15     15.0  Measured growth is consistent with O(n), within the required O(n log n) (medium confidence).
+memory_safety       5%    5.0/5      5.0  No memory errors, leaks or undefined behaviour detected on the tests run.
+readability         5%        -      0.0  [unavailable] Readability was not reviewed: Ollama is not reachable at http://localhost:11434.
+originality         5%    5.0/5      5.0  Highest similarity 0.38 against 3 other program(s); below the 0.85 threshold.
+
+--- Details ---
+- Complexity: n=1000: 2.31 ms, n=2000: 1.89 ms, n=4000: 3.45 ms, n=8000: 8.04
+  ms, n=16000: 13.27 ms, n=32000: 18.33 ms. Estimated O(n) (medium
+  confidence), required O(n log n). Empirical timing over a few sizes;
+  constant factors, I/O and noise can hide or imitate growth, so the class is
+  an estimate, not a proof.
+- Memory: valgrind not used (valgrind is not installed in the sandbox)
+
+--- Notes ---
+- readability could not be measured (Readability was not reviewed: Ollama is
+  not reachable at http://localhost:11434.) and counts as 0 until the
+  instructor regrades.
+- structure was only partly measured; see its verdict above.
+
+--- Usefulness & limitations of this evaluation ---
+Useful for:
+  1. First-pass grading of large classes
+     Example: 300 submissions for a sorting assignment are compiled, tested
+     and scored overnight; the instructor only reads reports whose grade is
+     incomplete or flagged.
+  2. Immediate feedback while students practise
+     Example: A student whose sum overflows for INT_MAX + 1 gets that exact
+     input, the expected output and the UBSan message within a minute, and can
+     resubmit.
+  3. Plagiarism and LLM-copy triage
+     Example: Two submissions with renamed variables reach similarity 0.93
+     against a 0.85 threshold and are flagged; the instructor checks only
+     those pairs.
+  4. Coding-interview and hiring screens
+     Example: Candidates are ranked by correctness, edge cases and memory
+     safety, with a per-metric explanation for every rejection.
+Limits of this report:
+  1. Tests cannot prove correctness
+     Example: A program that special-cases the exact hidden inputs passes
+     every test and still gets full correctness marks.
+  2. LLM-written expected outputs can be wrong
+     Example: The model claims the digit sum of -1234 is -10; a correct
+     program printing 10 fails that test.
+  3. Timing-based complexity is an estimate
+     Example: An O(n log n) sort and an O(n) loop can produce the same curve
+     at n <= 32000 when input reading dominates, so both are reported as O(n).
+  4. Similarity misses rewritten copies and over-flags tiny programs
+     Example: An LLM answer rewritten with a different loop structure scores
+     0.4 and is not flagged, while two honest 6-line add-two-numbers programs
+     look identical.
+
+--- Reproducibility ---
+Tools        : gcc 13.3.0, lizard 1.25.0, sandbox_backend wsl, sandbox_isolation nobody
+Rules hash   : sha256:2bd6c3de914bf48f0bb4b7f32841dc781cceb720284550dcd41f711c8b73cf24
+Tests hash   : sha256:1ca473c5fc3446c792fd154c911b42087655c7f84f9f4f0df6cf600c0aeb6a83
+Fingerprint  : 200f50e3e58c5ca4e64c3e155f98afbc1d594313f007803d3fe970a3639324b7

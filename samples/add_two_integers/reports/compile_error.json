@@ -1,0 +1,319 @@
+{
+  "report_version": 1,
+  "assignment": {
+    "id": "CLI",
+    "title": "add_two_integers"
+  },
+  "student": {
+    "name": "compile_error",
+    "roll_number": "COMPILE_ERROR"
+  },
+  "submission": {
+    "file": "solution.c",
+    "attempt": 1,
+    "submitted_at": "",
+    "sha256": "58d9a8c0882c2177e054e8f1c26a63c02167067d93ac9915488847239275aed0",
+    "lines": 8
+  },
+  "graded_at": "2026-11-02T20:17:54+00:00",
+  "grade": 19.0,
+  "max_grade": 100.0,
+  "coverage": 0.9,
+  "complete": false,
+  "provisional": true,
+  "incomplete_metrics": [
+    "readability"
+  ],
+  "partial_metrics": [
+    "structure"
+  ],
+  "flags": [
+    "compile_failed",
+    "unavailable:readability"
+  ],
+  "first_pass": {
+    "compiled": false,
+    "compile_flags": "-O2 -std=c11",
+    "compiler_output": "sol.c: In function 'main':\nsol.c:5:27: error: expected ';' before 'printf'\n    5 |     scanf(\"%d %d\", &a, &b)\n      |                           ^\n      |                           ;\n    6 |     printf(\"%d\\n\", a + b);\n      |     ~~~~~~                 \nsol.c:5:5: warning: ignoring return value of 'scanf' declared with attribute 'warn_unused_result' [-Wunused-result]\n    5 |     scanf(\"%d %d\", &a, &b)\n      |     ^~~~~~~~~~~~~~~~~~~~~~\n",
+    "smoke_ok": false,
+    "smoke": {},
+    "suspected_infinite_loop": false,
+    "static_sanity": {
+      "checks": {
+        "has_main": true,
+        "reads_input": true,
+        "writes_output": true,
+        "main_returns": true
+      },
+      "notes": []
+    }
+  },
+  "metrics": [
+    {
+      "name": "correctness",
+      "analyzer": "io_tests",
+      "weight": 0.2,
+      "status": "skipped",
+      "score": 0.0,
+      "feedback": "Not run because the program does not compile.",
+      "evidence": {
+        "skipped_because": "the program does not compile"
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 0.0
+    },
+    {
+      "name": "syntax",
+      "analyzer": "compiler_warnings",
+      "weight": 0.1,
+      "status": "skipped",
+      "score": 0.0,
+      "feedback": "The program does not compile (line 5: expected ';' before 'printf').",
+      "evidence": {
+        "flags": "-Wall -Wextra -Werror -std=c11",
+        "diagnostics": [
+          {
+            "line": 5,
+            "column": 27,
+            "kind": "error",
+            "flag": "",
+            "message": "expected ';' before 'printf'"
+          },
+          {
+            "line": 5,
+            "column": 5,
+            "kind": "warning",
+            "flag": "-Wunused-result",
+            "message": "ignoring return value of 'scanf' declared with attribute 'warn_unused_result'"
+          }
+        ],
+        "compiler_output": "sol.c: In function 'main':\nsol.c:5:27: error: expected ';' before 'printf'\n    5 |     scanf(\"%d %d\", &a, &b)\n      |                           ^\n      |                           ;\n    6 |     printf(\"%d\\n\", a + b);\n      |     ~~~~~~                 \nsol.c:5:5: warning: ignoring return value of 'scanf' declared with attribute 'warn_unused_result' [-Wunused-result]\n    5 |     scanf(\"%d %d\", &a, &b)\n      |     ^~~~~~~~~~~~~~~~~~~~~~\n"
+      },
+      "deterministic": true,
+      "suggestions": [
+        "Fix the compilation errors first; nothing else can be tested until the program builds."
+      ],
+      "timings": {},
+      "contribution": 0.0
+    },
+    {
+      "name": "structure",
+      "analyzer": "static_analysis",
+      "weight": 0.1,
+      "status": "partial",
+      "score": 0.6,
+      "feedback": "Cppcheck unavailable (cppcheck is not installed in the sandbox), its 40% share scored 0.",
+      "evidence": {
+        "functions": [
+          {
+            "name": "main",
+            "start_line": 3,
+            "end_line": 8,
+            "length": 6,
+            "nloc": 6,
+            "cyclomatic": 1,
+            "parameters": 0
+          }
+        ],
+        "max_cyclomatic": 8,
+        "max_function_length": 40,
+        "lizard_score": 1.0,
+        "cppcheck_score": null,
+        "cppcheck_available": false,
+        "cppcheck_unavailable_reason": "cppcheck is not installed in the sandbox",
+        "cppcheck_findings": []
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 6.0
+    },
+    {
+      "name": "modularity",
+      "analyzer": "function_split",
+      "weight": 0.1,
+      "status": "ok",
+      "score": 0.3,
+      "feedback": "Only main() is defined; move separate steps (reading, computing, printing) into helper functions.",
+      "evidence": {
+        "functions_defined": 1,
+        "helpers": [],
+        "expected_min": 2,
+        "expect_helpers": true,
+        "main_length": 6
+      },
+      "deterministic": true,
+      "suggestions": [
+        "Extract the computation into its own function and call it from main()."
+      ],
+      "timings": {},
+      "contribution": 3.0
+    },
+    {
+      "name": "logical",
+      "analyzer": "edge_case_runner",
+      "weight": 0.1,
+      "status": "skipped",
+      "score": 0.0,
+      "feedback": "Not run because the program does not compile.",
+      "evidence": {
+        "skipped_because": "the program does not compile"
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 0.0
+    },
+    {
+      "name": "complexity",
+      "analyzer": "complexity_estimator",
+      "weight": 0.1,
+      "status": "skipped",
+      "score": 0.0,
+      "feedback": "Not run because the program does not compile.",
+      "evidence": {
+        "skipped_because": "the program does not compile"
+      },
+      "deterministic": false,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 0.0
+    },
+    {
+      "name": "memory_safety",
+      "analyzer": "sanitizer_run",
+      "weight": 0.1,
+      "status": "skipped",
+      "score": 0.0,
+      "feedback": "Not run because the program does not compile.",
+      "evidence": {
+        "skipped_because": "the program does not compile"
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 0.0
+    },
+    {
+      "name": "readability",
+      "analyzer": "llm_review",
+      "weight": 0.1,
+      "status": "unavailable",
+      "score": null,
+      "feedback": "Readability was not reviewed: Ollama is not reachable at http://localhost:11434.",
+      "evidence": {
+        "reason": "ollama unreachable"
+      },
+      "deterministic": false,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 0.0
+    },
+    {
+      "name": "originality",
+      "analyzer": "similarity_flag",
+      "weight": 0.1,
+      "status": "ok",
+      "score": 1.0,
+      "feedback": "Highest similarity 0.53 against 7 other program(s); below the 0.85 threshold.",
+      "evidence": {
+        "max_similarity": 0.5263,
+        "flag_threshold": 0.85,
+        "flagged": false,
+        "compared_with": 7,
+        "tokens": 34,
+        "method": "Jaccard of 6-token shingles",
+        "note": "A flag only asks for human review; it never changes the score."
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 10.0
+    }
+  ],
+  "failed_tests": [],
+  "counter_tests": [],
+  "runtime": {
+    "smoke_cpu_ms": null,
+    "smoke_wall_ms": null,
+    "smoke_peak_rss_kb": null,
+    "note": "peak RSS includes about 10 MB used by the sandbox runner itself"
+  },
+  "suggestions": [
+    "Fix the compilation errors first; nothing else can be tested until the program builds.",
+    "Extract the computation into its own function and call it from main()."
+  ],
+  "tool_versions": {
+    "gcc": "13.3.0",
+    "lizard": "1.25.0",
+    "sandbox_backend": "wsl",
+    "sandbox_isolation": "nobody"
+  },
+  "rules_sha256": "bfd9c110015e6b07da2f789156cd3b32df372073b446eaea2c04950cfd6ea7e2",
+  "tests_sha256": "ee035830dd6f85e5f2b9de0582df01d8fea8ea8e2831d4228d8a234f9174abfa",
+  "reproducibility": {
+    "fingerprint": "740c8d357eef9bec61a327c838a12a7b90d942d371a5a399de4222752ad6c719",
+    "deterministic_metrics": [
+      "correctness",
+      "syntax",
+      "structure",
+      "modularity",
+      "logical",
+      "memory_safety",
+      "originality"
+    ],
+    "nondeterministic_metrics": [
+      "complexity",
+      "readability"
+    ],
+    "note": "Deterministic metrics give identical results for the same source, rules, tests and tool versions. Readability (LLM) and complexity (timing) can vary slightly between runs."
+  },
+  "usefulness_limitations": {
+    "usefulness": [
+      {
+        "use_case": "First-pass grading of large classes",
+        "example": "300 submissions for a sorting assignment are compiled, tested and scored overnight; the instructor only reads reports whose grade is incomplete or flagged.",
+        "benefit": "The same rules are applied to every student, and every point lost is explained."
+      },
+      {
+        "use_case": "Immediate feedback while students practise",
+        "example": "A student whose sum overflows for INT_MAX + 1 gets that exact input, the expected output and the UBSan message within a minute, and can resubmit.",
+        "benefit": "Concrete counter-examples teach more than a bare score."
+      },
+      {
+        "use_case": "Plagiarism and LLM-copy triage",
+        "example": "Two submissions with renamed variables reach similarity 0.93 against a 0.85 threshold and are flagged; the instructor checks only those pairs.",
+        "benefit": "Review time goes to the suspicious cases only, and no one is penalised automatically."
+      },
+      {
+        "use_case": "Coding-interview and hiring screens",
+        "example": "Candidates are ranked by correctness, edge cases and memory safety, with a per-metric explanation for every rejection.",
+        "benefit": "Fast, explainable first-round filtering."
+      }
+    ],
+    "limitations": [
+      {
+        "limitation": "Tests cannot prove correctness",
+        "example": "A program that special-cases the exact hidden inputs passes every test and still gets full correctness marks.",
+        "mitigation": "Upload a reference solution so random counter-tests are compared against it."
+      },
+      {
+        "limitation": "LLM-written expected outputs can be wrong",
+        "example": "The model claims the digit sum of -1234 is -10; a correct program printing 10 fails that test.",
+        "mitigation": "The teacher review step before Accept; edit or regenerate doubtful tests."
+      },
+      {
+        "limitation": "Timing-based complexity is an estimate",
+        "example": "An O(n log n) sort and an O(n) loop can produce the same curve at n <= 32000 when input reading dominates, so both are reported as O(n).",
+        "mitigation": "Use larger sizes in the rules; the report gives the fit quality and a confidence level."
+      },
+      {
+        "limitation": "Similarity misses rewritten copies and over-flags tiny programs",
+        "example": "An LLM answer rewritten with a different loop structure scores 0.4 and is not flagged, while two honest 6-line add-two-numbers programs look identical.",
+        "mitigation": "Flags are only review requests; short programs are never flagged."
+      }
+    ]
+  }
+}

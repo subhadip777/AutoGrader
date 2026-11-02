@@ -20,6 +20,11 @@ async function api(path, options) {
 }
 
 // ---------- helpers ----------
+const ANALYZERS = [
+  "io_tests", "compiler_warnings", "static_analysis", "function_split", "edge_case_runner",
+  "complexity_estimator", "sanitizer_run", "llm_review", "similarity_flag",
+];
+
 function validatePolicy(policy) {
   if (!policy || !Array.isArray(policy.metrics) || policy.metrics.length === 0) {
     return "Policy must contain a non-empty \"metrics\" array.";
@@ -28,6 +33,9 @@ function validatePolicy(policy) {
   for (const m of policy.metrics) {
     if (!m.name || !m.analyzer) {
       return "Every metric needs a \"name\" and an \"analyzer\".";
+    }
+    if (!ANALYZERS.includes(m.analyzer)) {
+      return `Metric "${m.name}" uses an unknown analyzer "${m.analyzer}" (known: ${ANALYZERS.join(", ")}).`;
     }
     if (typeof m.weight !== "number" || m.weight < 0 || m.weight > 1) {
       return `Metric "${m.name}" needs a weight between 0 and 1.`;
@@ -118,6 +126,24 @@ function renderTiles(list) {
 
       actions.append(validateBtn, publishBtn);
       tile.appendChild(actions);
+    } else {
+      const actions = document.createElement("div");
+      actions.className = "tile-actions";
+      const subsBtn = document.createElement("button");
+      subsBtn.type = "button";
+      subsBtn.textContent = "Submissions";
+      subsBtn.addEventListener("click", () => {
+        window.open(`/submissions.html?id=${encodeURIComponent(a.id)}`, "_blank");
+      });
+      const testsBtn = document.createElement("button");
+      testsBtn.type = "button";
+      testsBtn.className = "secondary";
+      testsBtn.textContent = "View test cases";
+      testsBtn.addEventListener("click", () => {
+        window.open(`/review.html?id=${encodeURIComponent(a.id)}`, "_blank");
+      });
+      actions.append(subsBtn, testsBtn);
+      tile.appendChild(actions);
     }
 
     tilesEl.appendChild(tile);
@@ -163,11 +189,19 @@ form.addEventListener("submit", async (e) => {
   const policyError = validatePolicy(policy);
   if (policyError) return showMessage(policyError);
 
+  const referenceFile = document.getElementById("reference-file").files[0];
+  let referenceSolution = null;
+  if (referenceFile) {
+    if (!referenceFile.name.toLowerCase().endsWith(".c")) return showMessage("The reference solution must be a .c file.");
+    if (referenceFile.size > 100000) return showMessage("The reference solution must be at most 100 KB.");
+    referenceSolution = await referenceFile.text();
+  }
+
   try {
     await api("/api/assignments", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, statement, policy, num_tests: numTests }),
+      body: JSON.stringify({ title, statement, policy, num_tests: numTests, reference_solution: referenceSolution }),
     });
     form.reset();
     await refreshTiles();
@@ -176,5 +210,24 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
+async function showSandboxStatus() {
+  const banner = document.getElementById("sandbox-banner");
+  try {
+    const { sandbox } = await api("/api/health");
+    if (!sandbox.available) {
+      banner.textContent = `Grading is unavailable: ${sandbox.detail}. Submissions are stored but not graded.`;
+      banner.className = "warning-banner error";
+      banner.hidden = false;
+    } else if (!sandbox.isolated) {
+      banner.textContent = `Warning: ${sandbox.detail}. Use the Docker backend for real student submissions.`;
+      banner.className = "warning-banner";
+      banner.hidden = false;
+    } else {
+      banner.hidden = true;
+    }
+  } catch { /* the tiles report connection problems */ }
+}
+
 refreshTiles();
+showSandboxStatus();
 window.addEventListener("focus", refreshTiles);

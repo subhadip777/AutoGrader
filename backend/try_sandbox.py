@@ -1,3 +1,4 @@
+"""Manual check of the sandbox limits. Run from backend/:  python try_sandbox.py"""
 from server import sandbox
 
 MEM_HOG = r'''#include <stdio.h>
@@ -26,12 +27,15 @@ int main(void) { int a, b; if (scanf("%d %d", &a, &b) != 2) return 1; printf("%d
 
 tests = [{"id": "T001", "input": "7 5\n"}]
 
-for name, src in CASES.items():
-    res = sandbox.run_c(src, tests, time_limit_s=1, memory_limit_mb=64)
-    if not res["compile"]["ok"]:
-        print(f"{name:15} COMPILE FAILED: {res['compile']['stderr'].splitlines()[0]}")
-        continue
-    r = res["runs"][0]
-    print(f"{name:15} rc={r['returncode']} signal={r['signal']} timed_out={r['timed_out']} "
-          f"cpu={r['cpu_ms']}ms truncated={r['truncated']} stdout={r['stdout'][:15]!r}")
-print("gcc", res["tool_versions"]["gcc"])
+if __name__ == "__main__":
+    print("backend:", sandbox.status(refresh=True))
+    res = None
+    for name, src in CASES.items():
+        res = sandbox.run_c(src, tests, time_limit_s=1, memory_limit_mb=64)
+        if not res["compile"]["ok"]:
+            print(f"{name:15} COMPILE FAILED: {res['compile']['stderr'].splitlines()[0]}")
+            continue
+        r = res["runs"][0]
+        print(f"{name:15} rc={r['returncode']} signal={r['signal']} timed_out={r['timed_out']} "
+              f"cpu={r['cpu_ms']}ms rss={r['max_rss_kb']}KB truncated={r['truncated']} stdout={r['stdout'][:15]!r}")
+    print("gcc", res["tool_versions"]["gcc"])

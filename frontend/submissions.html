@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AutoGrader - Submissions</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>AutoGrader</h1>
+    <span class="role">Teacher</span>
+    <a class="home-link" href="/teacher.html">Assignments</a>
+  </header>
+
+  <main>
+    <h2 id="heading">Submissions</h2>
+    <p id="status" class="status-line"></p>
+
+    <div class="card table-wrap">
+      <table id="subs">
+        <thead>
+          <tr><th>Roll number</th><th>Name</th><th>Attempt</th><th>State</th><th>Grade</th><th>Flags</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <section id="detail" hidden>
+      <h2 id="detail-title"></h2>
+      <div class="actions">
+        <button id="regrade" type="button" class="secondary">Regrade</button>
+        <a id="dl-txt" class="button-link" download>Report (.txt)</a>
+        <a id="dl-json" class="button-link" download>Report (.json)</a>
+      </div>
+      <div id="detail-notes"></div>
+      <h3>Report</h3>
+      <pre id="report-text" class="report-text"></pre>
+      <h3>Originality matches (teacher only)</h3>
+      <div class="card table-wrap">
+        <table id="matches">
+          <thead><tr><th>Compared with</th><th>Kind</th><th>Similarity</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <h3>Attempts</h3>
+      <div class="card table-wrap">
+        <table id="attempts">
+          <thead><tr><th>Attempt</th><th>Submitted</th><th>State</th><th>Grade</th><th>SHA-256</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <h3>Source</h3>
+      <pre id="source" class="report-text source-view"></pre>
+    </section>
+  </main>
+
+  <script src="submissions.js"></script>
+</body>
+</html>

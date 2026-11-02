@@ -1,0 +1,101 @@
+===== Grading report: add_two_integers (CLI) =====
+Student      : warnings (WARNINGS)
+Attempt      : 1, submitted 
+Graded at    : 2026-11-02T20:18:59+00:00
+Source       : solution.c, 20 lines, sha256 84b97bc3acae34eb...
+
+Overall grade: 82.4 / 100   (PROVISIONAL, see notes)
+Measured     : 90% of the weight could be measured; unmeasured parts count as 0 until regraded.
+
+--- First pass ---
+Compiled     : yes (-O2 -std=c11)
+Smoke run    : ok, 2.289 ms CPU
+
+--- Metrics ---
+Metric          Weight    Score   Points  Verdict
+correctness        20%  20.0/20     20.0  10 of 10 tests pass.
+syntax             10%   7.0/10      7.0  3 warning(s) with -Wall -Wextra -Werror -std=c11: -Wsign-compare x1, -Wunused-parameter x1, -Wunused-variable x1.
+structure          10%   6.0/10      6.0  [partial] Cppcheck unavailable (cppcheck is not installed in the sandbox), its 40% share scored 0.
+modularity         10%  10.0/10     10.0  2 function(s) defined (add(), main()); 2 expected.
+logical            10%   9.4/10      9.4  30 of 32 edge-case checks pass. Fails on int_overflow: UndefinedBehaviorSanitizer: signed integer overflow: [...]
+complexity         10%  10.0/10     10.0  Measured growth is consistent with O(1), within the required O(1) (medium confidence).
+memory_safety      10%  10.0/10     10.0  No memory errors, leaks or undefined behaviour detected on the tests run.
+readability        10%        -      0.0  [unavailable] Readability was not reviewed: Ollama is not reachable at http://localhost:11434.
+originality        10%  10.0/10     10.0  Highest similarity 0.48 against 7 other program(s); below the 0.85 threshold.
+
+--- Counter-tests and edge cases that fail ---
+generated / int_overflow: INT_MAX plus a positive value overflows a 32-bit int
+        INPUT:    2147483647 1
+        EXPECTED: 2147483648
+        GOT:      -2147483648
+        WHY:      UndefinedBehaviorSanitizer: signed integer overflow:
+        2147483647 + 1 cannot be represented in type 'int'
+generated / int_overflow: INT_MIN minus a value overflows a 32-bit int
+        INPUT:    -2147483648 -1
+        EXPECTED: -2147483649
+        GOT:      2147483647
+        WHY:      UndefinedBehaviorSanitizer: signed integer overflow:
+        -2147483648 + -1 cannot be represented in type 'int'
+
+--- Details ---
+- Compiler: line 5: warning: unused parameter 'scale' -Wunused-parameter
+- Compiler: line 15: warning: comparison of integer expressions of different
+  signedness: 'int' and 'unsigned int' -Wsign-compare
+- Compiler: line 10: warning: unused variable 'spare' -Wunused-variable
+- Complexity: n=1: 4.88 ms, n=10: 2.30 ms, n=100: 3.48 ms, n=1000: 2.80 ms,
+  n=10000: 2.15 ms. Estimated O(1) (medium confidence), required O(1).
+  Empirical timing over a few sizes; constant factors, I/O and noise can hide
+  or imitate growth, so the class is an estimate, not a proof.
+- Memory: valgrind not used (valgrind is not installed in the sandbox)
+
+--- Suggestions to raise the grade ---
+- Line 5: unused parameter 'scale'
+- Line 15: comparison of integer expressions of different signedness: 'int'
+  and 'unsigned int'
+- Line 10: unused variable 'spare'
+- Values near INT_MAX overflow an int: use long long, or check the range
+  before the arithmetic.
+
+--- Notes ---
+- readability could not be measured (Readability was not reviewed: Ollama is
+  not reachable at http://localhost:11434.) and counts as 0 until the
+  instructor regrades.
+- structure was only partly measured; see its verdict above.
+
+--- Usefulness & limitations of this evaluation ---
+Useful for:
+  1. First-pass grading of large classes
+     Example: 300 submissions for a sorting assignment are compiled, tested
+     and scored overnight; the instructor only reads reports whose grade is
+     incomplete or flagged.
+  2. Immediate feedback while students practise
+     Example: A student whose sum overflows for INT_MAX + 1 gets that exact
+     input, the expected output and the UBSan message within a minute, and can
+     resubmit.
+  3. Plagiarism and LLM-copy triage
+     Example: Two submissions with renamed variables reach similarity 0.93
+     against a 0.85 threshold and are flagged; the instructor checks only
+     those pairs.
+  4. Coding-interview and hiring screens
+     Example: Candidates are ranked by correctness, edge cases and memory
+     safety, with a per-metric explanation for every rejection.
+Limits of this report:
+  1. Tests cannot prove correctness
+     Example: A program that special-cases the exact hidden inputs passes
+     every test and still gets full correctness marks.
+  2. LLM-written expected outputs can be wrong
+     Example: The model claims the digit sum of -1234 is -10; a correct
+     program printing 10 fails that test.
+  3. Timing-based complexity is an estimate
+     Example: An O(n log n) sort and an O(n) loop can produce the same curve
+     at n <= 32000 when input reading dominates, so both are reported as O(n).
+  4. Similarity misses rewritten copies and over-flags tiny programs
+     Example: An LLM answer rewritten with a different loop structure scores
+     0.4 and is not flagged, while two honest 6-line add-two-numbers programs
+     look identical.
+
+--- Reproducibility ---
+Tools        : gcc 13.3.0, lizard 1.25.0, sandbox_backend wsl, sandbox_isolation nobody
+Rules hash   : sha256:bfd9c110015e6b07da2f789156cd3b32df372073b446eaea2c04950cfd6ea7e2
+Tests hash   : sha256:ee035830dd6f85e5f2b9de0582df01d8fea8ea8e2831d4228d8a234f9174abfa
+Fingerprint  : b3b2acd47917d8ae1ccdf3a700e3c45da67a9f33049a648ebd6215b8aa74990d

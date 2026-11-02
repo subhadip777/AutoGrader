@@ -1,0 +1,847 @@
+{
+  "report_version": 1,
+  "assignment": {
+    "id": "CLI",
+    "title": "sort_numbers"
+  },
+  "student": {
+    "name": "similar_a",
+    "roll_number": "SIMILAR_A"
+  },
+  "submission": {
+    "file": "solution.c",
+    "attempt": 1,
+    "submitted_at": "",
+    "sha256": "8a19dca00a7f84ea22d88dce3ac2af9a203e5fc06ece45a704da02c54a963d30",
+    "lines": 58
+  },
+  "graded_at": "2026-11-02T20:19:35+00:00",
+  "grade": 91.0,
+  "max_grade": 100.0,
+  "coverage": 0.95,
+  "complete": false,
+  "provisional": true,
+  "incomplete_metrics": [
+    "readability"
+  ],
+  "partial_metrics": [
+    "structure"
+  ],
+  "flags": [
+    "unavailable:readability",
+    "originality_review"
+  ],
+  "first_pass": {
+    "compiled": true,
+    "compile_flags": "-O2 -std=c11",
+    "compiler_output": "",
+    "smoke_ok": true,
+    "smoke": {
+      "status": "ok",
+      "explanation": "",
+      "test_id": "T001",
+      "returncode": 0,
+      "signal": null,
+      "cpu_ms": 5.019,
+      "wall_ms": 7.39,
+      "max_rss_kb": 9904
+    },
+    "suspected_infinite_loop": false,
+    "static_sanity": {
+      "checks": {
+        "has_main": true,
+        "reads_input": true,
+        "writes_output": true,
+        "main_returns": true
+      },
+      "notes": []
+    }
+  },
+  "metrics": [
+    {
+      "name": "correctness",
+      "analyzer": "io_tests",
+      "weight": 0.3,
+      "status": "ok",
+      "score": 1.0,
+      "feedback": "10 of 10 tests pass.",
+      "evidence": {
+        "tests_passed": 10,
+        "tests_total": 10,
+        "by_status": {
+          "pass": 10
+        },
+        "comparison": "trailing_ws",
+        "failing": [],
+        "failing_total": 0,
+        "results": [
+          {
+            "id": "T001",
+            "status": "pass"
+          },
+          {
+            "id": "T002",
+            "status": "pass"
+          },
+          {
+            "id": "T003",
+            "status": "pass"
+          },
+          {
+            "id": "T004",
+            "status": "pass"
+          },
+          {
+            "id": "T005",
+            "status": "pass"
+          },
+          {
+            "id": "T006",
+            "status": "pass"
+          },
+          {
+            "id": "T007",
+            "status": "pass"
+          },
+          {
+            "id": "T008",
+            "status": "pass"
+          },
+          {
+            "id": "T009",
+            "status": "pass"
+          },
+          {
+            "id": "T010",
+            "status": "pass"
+          }
+        ]
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {
+        "T001": {
+          "cpu_ms": 1.929,
+          "max_rss_kb": 9740
+        },
+        "T002": {
+          "cpu_ms": 4.277,
+          "max_rss_kb": 9748
+        },
+        "T003": {
+          "cpu_ms": 3.778,
+          "max_rss_kb": 9748
+        },
+        "T004": {
+          "cpu_ms": 3.264,
+          "max_rss_kb": 9752
+        },
+        "T005": {
+          "cpu_ms": 1.842,
+          "max_rss_kb": 9752
+        },
+        "T006": {
+          "cpu_ms": 4.346,
+          "max_rss_kb": 9756
+        },
+        "T007": {
+          "cpu_ms": 2.326,
+          "max_rss_kb": 9756
+        },
+        "T008": {
+          "cpu_ms": 1.739,
+          "max_rss_kb": 9760
+        },
+        "T009": {
+          "cpu_ms": 2.339,
+          "max_rss_kb": 9764
+        },
+        "T010": {
+          "cpu_ms": 3.878,
+          "max_rss_kb": 9768
+        }
+      },
+      "contribution": 30.0
+    },
+    {
+      "name": "syntax",
+      "analyzer": "compiler_warnings",
+      "weight": 0.1,
+      "status": "ok",
+      "score": 1.0,
+      "feedback": "No warnings with -Wall -Wextra -std=c11.",
+      "evidence": {
+        "flags": "-Wall -Wextra -std=c11",
+        "warnings": 0,
+        "by_flag": {},
+        "diagnostics": [],
+        "werror_build_ok": true
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 10.0
+    },
+    {
+      "name": "structure",
+      "analyzer": "static_analysis",
+      "weight": 0.1,
+      "status": "partial",
+      "score": 0.6,
+      "feedback": "Cppcheck unavailable (cppcheck is not installed in the sandbox), its 40% share scored 0.",
+      "evidence": {
+        "functions": [
+          {
+            "name": "merge",
+            "start_line": 5,
+            "end_line": 23,
+            "length": 19,
+            "nloc": 19,
+            "cyclomatic": 7,
+            "parameters": 5
+          },
+          {
+            "name": "merge_sort",
+            "start_line": 25,
+            "end_line": 33,
+            "length": 9,
+            "nloc": 9,
+            "cyclomatic": 2,
+            "parameters": 4
+          },
+          {
+            "name": "main",
+            "start_line": 35,
+            "end_line": 58,
+            "length": 24,
+            "nloc": 24,
+            "cyclomatic": 9,
+            "parameters": 0
+          }
+        ],
+        "max_cyclomatic": 10,
+        "max_function_length": 50,
+        "lizard_score": 1.0,
+        "cppcheck_score": null,
+        "cppcheck_available": false,
+        "cppcheck_unavailable_reason": "cppcheck is not installed in the sandbox",
+        "cppcheck_findings": []
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 6.0
+    },
+    {
+      "name": "modularity",
+      "analyzer": "function_split",
+      "weight": 0.05,
+      "status": "ok",
+      "score": 1.0,
+      "feedback": "3 function(s) defined (merge(), merge_sort(), main()); 2 expected.",
+      "evidence": {
+        "functions_defined": 3,
+        "helpers": [
+          "merge",
+          "merge_sort"
+        ],
+        "expected_min": 2,
+        "expect_helpers": true,
+        "main_length": 24
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 5.0
+    },
+    {
+      "name": "logical",
+      "analyzer": "edge_case_runner",
+      "weight": 0.15,
+      "status": "ok",
+      "score": 1.0,
+      "feedback": "34 of 34 edge-case checks pass.",
+      "evidence": {
+        "checks_passed": 34,
+        "checks_total": 34,
+        "themes": [
+          "negatives",
+          "zero",
+          "duplicates",
+          "single",
+          "sorted",
+          "reverse_sorted",
+          "boundary",
+          "large"
+        ],
+        "input_format": "from rules.json",
+        "reference_solution": true,
+        "notes": [],
+        "failing": [],
+        "failing_total": 0,
+        "checks": [
+          {
+            "kind": "category_test",
+            "theme": "single",
+            "status": "pass",
+            "reason": "accepted test T002 (single): A single value is already sorted."
+          },
+          {
+            "kind": "category_test",
+            "theme": "reverse_sorted",
+            "status": "pass",
+            "reason": "accepted test T003 (reverse_sorted): Descending input must be fully reversed."
+          },
+          {
+            "kind": "category_test",
+            "theme": "sorted",
+            "status": "pass",
+            "reason": "accepted test T004 (sorted): Already sorted input stays the same."
+          },
+          {
+            "kind": "category_test",
+            "theme": "duplicates",
+            "status": "pass",
+            "reason": "accepted test T005 (duplicates): All values equal."
+          },
+          {
+            "kind": "category_test",
+            "theme": "negatives",
+            "status": "pass",
+            "reason": "accepted test T006 (negatives): Negative values sort by numeric value, not by digits."
+          },
+          {
+            "kind": "category_test",
+            "theme": "boundary",
+            "status": "pass",
+            "reason": "accepted test T007 (boundary): The smallest and largest allowed values; comparing with a - b would overflow."
+          },
+          {
+            "kind": "category_test",
+            "theme": "zero",
+            "status": "pass",
+            "reason": "accepted test T009 (zero): Two zeros."
+          },
+          {
+            "kind": "format_variant",
+            "theme": "trailing_newline",
+            "status": "pass",
+            "reason": "T001 with the final newline toggled; the answer must not change"
+          },
+          {
+            "kind": "format_variant",
+            "theme": "extra_spaces",
+            "status": "pass",
+            "reason": "T001 with extra spaces between values; the answer must not change"
+          },
+          {
+            "kind": "generated",
+            "theme": "negatives",
+            "status": "pass",
+            "reason": "all values negative"
+          },
+          {
+            "kind": "generated",
+            "theme": "zero",
+            "status": "pass",
+            "reason": "all values zero"
+          },
+          {
+            "kind": "generated",
+            "theme": "duplicates",
+            "status": "pass",
+            "reason": "every value the same"
+          },
+          {
+            "kind": "generated",
+            "theme": "duplicates",
+            "status": "pass",
+            "reason": "a few values repeated many times"
+          },
+          {
+            "kind": "generated",
+            "theme": "single",
+            "status": "pass",
+            "reason": "a single element"
+          },
+          {
+            "kind": "generated",
+            "theme": "sorted",
+            "status": "pass",
+            "reason": "values already in sorted order"
+          },
+          {
+            "kind": "generated",
+            "theme": "reverse_sorted",
+            "status": "pass",
+            "reason": "values in descending order"
+          },
+          {
+            "kind": "generated",
+            "theme": "boundary",
+            "status": "pass",
+            "reason": "every value at its smallest allowed value"
+          },
+          {
+            "kind": "generated",
+            "theme": "boundary",
+            "status": "pass",
+            "reason": "every value at its largest allowed value"
+          },
+          {
+            "kind": "generated",
+            "theme": "large",
+            "status": "pass",
+            "reason": "the largest input size (n = 100000)"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "pass",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "pass",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "pass",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "pass",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "pass",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "pass",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "pass",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "pass",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "pass",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "pass",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "pass",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "pass",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "pass",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "pass",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          },
+          {
+            "kind": "counter_test",
+            "theme": "random",
+            "status": "pass",
+            "reason": "random input near the boundaries, compared with the reference solution"
+          }
+        ]
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 15.0
+    },
+    {
+      "name": "complexity",
+      "analyzer": "complexity_estimator",
+      "weight": 0.15,
+      "status": "ok",
+      "score": 1.0,
+      "feedback": "Measured growth is consistent with O(n), within the required O(n log n) (medium confidence).",
+      "evidence": {
+        "required": "O(n log n)",
+        "scaling": {
+          "mode": "length",
+          "fields": [
+            "n"
+          ]
+        },
+        "input_format": "from rules.json",
+        "repeats": 5,
+        "measurements": [
+          {
+            "n": 1000,
+            "min_cpu_ms": 1.763,
+            "median_cpu_ms": 2.7985,
+            "cpu_ms": [
+              3.35,
+              1.763,
+              4.307,
+              2.247
+            ],
+            "wall_ms": [
+              6.264,
+              5.485,
+              6.893,
+              7.612,
+              6.248
+            ]
+          },
+          {
+            "n": 2000,
+            "min_cpu_ms": 3.264,
+            "median_cpu_ms": 5.266,
+            "cpu_ms": [
+              5.408,
+              5.124,
+              5.432,
+              3.264
+            ],
+            "wall_ms": [
+              8.072,
+              7.779,
+              6.382,
+              8.246,
+              6.75
+            ]
+          },
+          {
+            "n": 4000,
+            "min_cpu_ms": 4.611,
+            "median_cpu_ms": 5.28,
+            "cpu_ms": [
+              5.454,
+              6.16,
+              4.611,
+              5.106
+            ],
+            "wall_ms": [
+              8.171,
+              8.408,
+              7.387,
+              8.782,
+              8.187
+            ]
+          },
+          {
+            "n": 8000,
+            "min_cpu_ms": 7.312,
+            "median_cpu_ms": 8.55,
+            "cpu_ms": [
+              9.306,
+              9.447,
+              7.312,
+              7.794
+            ],
+            "wall_ms": [
+              10.505,
+              10.654,
+              11.149,
+              11.863,
+              13.723
+            ]
+          },
+          {
+            "n": 16000,
+            "min_cpu_ms": 9.957,
+            "median_cpu_ms": 13.32,
+            "cpu_ms": [
+              14.1,
+              13.44,
+              13.2,
+              9.957
+            ],
+            "wall_ms": [
+              15.669,
+              15.687,
+              16.022,
+              14.678,
+              14.495
+            ]
+          },
+          {
+            "n": 32000,
+            "min_cpu_ms": 19.565,
+            "median_cpu_ms": 22.114,
+            "cpu_ms": [
+              22.156,
+              23.567,
+              19.565,
+              22.072
+            ],
+            "wall_ms": [
+              23.769,
+              23.578,
+              25.246,
+              23.673,
+              23.638
+            ]
+          }
+        ],
+        "failures": [],
+        "method": "median CPU time per size (first run dropped), least-squares fit of a + b*f(n)",
+        "limitations": "Empirical timing over a few sizes; constant factors, I/O and noise can hide or imitate growth, so the class is an estimate, not a proof.",
+        "estimated": "O(n)",
+        "confidence": "medium",
+        "fit": {
+          "class": "O(n)",
+          "fits": {
+            "O(log n)": {
+              "intercept_ms": -32.0704,
+              "slope_ms": 47.8007,
+              "sse": 31.949843,
+              "r2": 0.8482
+            },
+            "O(n)": {
+              "intercept_ms": 2.0339,
+              "slope_ms": 17.4063,
+              "sse": 2.327751,
+              "r2": 0.9889
+            },
+            "O(n log n)": {
+              "intercept_ms": 2.4618,
+              "slope_ms": 17.1382,
+              "sse": 2.852773,
+              "r2": 0.9864
+            },
+            "O(n^2)": {
+              "intercept_ms": 4.2065,
+              "slope_ms": 15.9285,
+              "sse": 14.984651,
+              "r2": 0.9288
+            },
+            "O(n^3)": {
+              "intercept_ms": 4.8622,
+              "slope_ms": 15.1367,
+              "sse": 27.597087,
+              "r2": 0.8689
+            }
+          },
+          "growth_ms": 17.802,
+          "noise_threshold_ms": 4.86,
+          "rank_correlation": 1.0,
+          "confidence": "medium",
+          "reason": "best fit O(n) (R^2 = 0.989)"
+        }
+      },
+      "deterministic": false,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 15.0
+    },
+    {
+      "name": "memory_safety",
+      "analyzer": "sanitizer_run",
+      "weight": 0.05,
+      "status": "ok",
+      "score": 1.0,
+      "feedback": "No memory errors, leaks or undefined behaviour detected on the tests run.",
+      "evidence": {
+        "tools": {
+          "sanitizers": "ok",
+          "valgrind": "valgrind is not installed in the sandbox",
+          "perf": "not available: perf_event_open is blocked in the sandbox; CPU time and peak memory are reported instead"
+        },
+        "flags": "-fsanitize=address,undefined -g -O1 -fno-omit-frame-pointer -std=c11",
+        "tests_run": [
+          "T001",
+          "T002",
+          "T003",
+          "T004",
+          "T005"
+        ],
+        "valgrind_tests": [],
+        "findings": [],
+        "categories": []
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {
+        "profile": [
+          {
+            "test": "T001",
+            "cpu_ms": 20.448,
+            "max_rss_kb": 9948
+          },
+          {
+            "test": "T002",
+            "cpu_ms": 27.017,
+            "max_rss_kb": 9952
+          },
+          {
+            "test": "T003",
+            "cpu_ms": 20.025,
+            "max_rss_kb": 9952
+          },
+          {
+            "test": "T004",
+            "cpu_ms": 20.726,
+            "max_rss_kb": 9952
+          },
+          {
+            "test": "T005",
+            "cpu_ms": 21.587,
+            "max_rss_kb": 9956
+          }
+        ]
+      },
+      "contribution": 5.0
+    },
+    {
+      "name": "readability",
+      "analyzer": "llm_review",
+      "weight": 0.05,
+      "status": "unavailable",
+      "score": null,
+      "feedback": "Readability was not reviewed: Ollama is not reachable at http://localhost:11434.",
+      "evidence": {
+        "reason": "ollama unreachable"
+      },
+      "deterministic": false,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 0.0
+    },
+    {
+      "name": "originality",
+      "analyzer": "similarity_flag",
+      "weight": 0.05,
+      "status": "ok",
+      "score": 1.0,
+      "feedback": "Very similar to another program (similarity 1.00, threshold 0.85). This is flagged for the instructor to review; it is not a finding of copying.",
+      "evidence": {
+        "max_similarity": 1.0,
+        "flag_threshold": 0.85,
+        "flagged": true,
+        "compared_with": 3,
+        "tokens": 407,
+        "method": "Jaccard of 6-token shingles",
+        "note": "A flag only asks for human review; it never changes the score."
+      },
+      "deterministic": true,
+      "suggestions": [],
+      "timings": {},
+      "contribution": 5.0
+    }
+  ],
+  "failed_tests": [],
+  "counter_tests": [],
+  "runtime": {
+    "smoke_cpu_ms": 5.019,
+    "smoke_wall_ms": 7.39,
+    "smoke_peak_rss_kb": 9904,
+    "note": "peak RSS includes about 10 MB used by the sandbox runner itself"
+  },
+  "suggestions": [],
+  "tool_versions": {
+    "gcc": "13.3.0",
+    "lizard": "1.25.0",
+    "sandbox_backend": "wsl",
+    "sandbox_isolation": "nobody"
+  },
+  "rules_sha256": "2bd6c3de914bf48f0bb4b7f32841dc781cceb720284550dcd41f711c8b73cf24",
+  "tests_sha256": "1ca473c5fc3446c792fd154c911b42087655c7f84f9f4f0df6cf600c0aeb6a83",
+  "reproducibility": {
+    "fingerprint": "5ecd16fa248a50f95de4fd957869a129d239fc2ccac3eb1d0f970fa41084b690",
+    "deterministic_metrics": [
+      "correctness",
+      "syntax",
+      "structure",
+      "modularity",
+      "logical",
+      "memory_safety",
+      "originality"
+    ],
+    "nondeterministic_metrics": [
+      "complexity",
+      "readability"
+    ],
+    "note": "Deterministic metrics give identical results for the same source, rules, tests and tool versions. Readability (LLM) and complexity (timing) can vary slightly between runs."
+  },
+  "usefulness_limitations": {
+    "usefulness": [
+      {
+        "use_case": "First-pass grading of large classes",
+        "example": "300 submissions for a sorting assignment are compiled, tested and scored overnight; the instructor only reads reports whose grade is incomplete or flagged.",
+        "benefit": "The same rules are applied to every student, and every point lost is explained."
+      },
+      {
+        "use_case": "Immediate feedback while students practise",
+        "example": "A student whose sum overflows for INT_MAX + 1 gets that exact input, the expected output and the UBSan message within a minute, and can resubmit.",
+        "benefit": "Concrete counter-examples teach more than a bare score."
+      },
+      {
+        "use_case": "Plagiarism and LLM-copy triage",
+        "example": "Two submissions with renamed variables reach similarity 0.93 against a 0.85 threshold and are flagged; the instructor checks only those pairs.",
+        "benefit": "Review time goes to the suspicious cases only, and no one is penalised automatically."
+      },
+      {
+        "use_case": "Coding-interview and hiring screens",
+        "example": "Candidates are ranked by correctness, edge cases and memory safety, with a per-metric explanation for every rejection.",
+        "benefit": "Fast, explainable first-round filtering."
+      }
+    ],
+    "limitations": [
+      {
+        "limitation": "Tests cannot prove correctness",
+        "example": "A program that special-cases the exact hidden inputs passes every test and still gets full correctness marks.",
+        "mitigation": "Upload a reference solution so random counter-tests are compared against it."
+      },
+      {
+        "limitation": "LLM-written expected outputs can be wrong",
+        "example": "The model claims the digit sum of -1234 is -10; a correct program printing 10 fails that test.",
+        "mitigation": "The teacher review step before Accept; edit or regenerate doubtful tests."
+      },
+      {
+        "limitation": "Timing-based complexity is an estimate",
+        "example": "An O(n log n) sort and an O(n) loop can produce the same curve at n <= 32000 when input reading dominates, so both are reported as O(n).",
+        "mitigation": "Use larger sizes in the rules; the report gives the fit quality and a confidence level."
+      },
+      {
+        "limitation": "Similarity misses rewritten copies and over-flags tiny programs",
+        "example": "An LLM answer rewritten with a different loop structure scores 0.4 and is not flagged, while two honest 6-line add-two-numbers programs look identical.",
+        "mitigation": "Flags are only review requests; short programs are never flagged."
+      }
+    ]
+  }
+}

@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AutoGrader - Teacher</title>
   <link rel="stylesheet" href="style.css">
-  <a class="home-link" href="/">Home</a>
 </head>
 <body>
   <header class="topbar">
     <h1>AutoGrader</h1>
     <span class="role">Teacher</span>
+    <a class="home-link" href="/">Home</a>
   </header>
+  <div id="sandbox-banner" class="warning-banner" hidden></div>
 
   <main>
     <section class="card">
@@ -32,7 +33,9 @@
           <input id="policy-file" type="file" accept=".json">
         </label>
 
-        
+        <label>Reference solution (.c, optional; never shown to students)
+          <input id="reference-file" type="file" accept=".c">
+        </label>
 
         <label>Number of test cases
           <input id="num-tests" type="number" value="25" min="5" max="100">

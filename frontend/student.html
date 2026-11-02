@@ -37,6 +37,7 @@
         <p id="form-message" role="alert"></p>
         <div class="actions">
           <button type="button" id="view-statement" class="secondary">View problem statement</button>
+          <button type="button" id="check-btn" class="secondary">Check my results</button>
           <button type="submit" id="submit-btn">Submit</button>
         </div>
       </form>
@@ -46,6 +47,21 @@
     <section id="status-section" hidden>
       <h2>Submission status</h2>
       <div id="status-tile" class="tile status-tile"></div>
+    </section>
+
+    <section id="result-section" class="card" hidden>
+      <h2 id="result-title">Your grade</h2>
+      <div id="result-body"></div>
+    </section>
+
+    <section id="history-section" hidden>
+      <h2>Your attempts</h2>
+      <div class="card table-wrap">
+        <table id="history">
+          <thead><tr><th>Attempt</th><th>Submitted</th><th>State</th><th>Grade</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </section>
   </main>
 

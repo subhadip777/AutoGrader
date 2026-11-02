@@ -1,0 +1,72 @@
+===== Grading report: add_two_integers (CLI) =====
+Student      : infinite_loop (INFINITE_LOOP)
+Attempt      : 1, submitted 
+Graded at    : 2026-11-02T20:18:11+00:00
+Source       : solution.c, 14 lines, sha256 c4c4dffa56366ef7...
+
+Overall grade: 29.0 / 100   (PROVISIONAL, see notes)
+Measured     : 90% of the weight could be measured; unmeasured parts count as 0 until regraded.
+
+--- First pass ---
+Compiled     : yes (-O2 -std=c11)
+Smoke run    : timeout, 2001.797 ms CPU - did not finish within the 1 s time limit (possible infinite loop or a too-slow algorithm)
+FLAG         : suspected infinite loop - execution-based metrics were skipped
+
+--- Metrics ---
+Metric          Weight    Score   Points  Verdict
+correctness        20%   0.0/20      0.0  [skipped] Not run because the smoke run timed out (suspected infinite loop).
+syntax             10%  10.0/10     10.0  No warnings with -Wall -Wextra -Werror -std=c11.
+structure          10%   6.0/10      6.0  [partial] Cppcheck unavailable (cppcheck is not installed in the sandbox), its 40% share scored 0.
+modularity         10%   3.0/10      3.0  Only main() is defined; move separate steps (reading, computing, printing) into helper functions.
+logical            10%   0.0/10      0.0  [skipped] Not run because the smoke run timed out (suspected infinite loop).
+complexity         10%   0.0/10      0.0  [skipped] Not run because the smoke run timed out (suspected infinite loop).
+memory_safety      10%   0.0/10      0.0  [skipped] Not run because the smoke run timed out (suspected infinite loop).
+readability        10%        -      0.0  [unavailable] Readability was not reviewed: Ollama is not reachable at http://localhost:11434.
+originality        10%  10.0/10     10.0  Highest similarity 0.25 against 7 other program(s); below the 0.85 threshold.
+
+--- Suggestions to raise the grade ---
+- Extract the computation into its own function and call it from main().
+
+--- Notes ---
+- readability could not be measured (Readability was not reviewed: Ollama is
+  not reachable at http://localhost:11434.) and counts as 0 until the
+  instructor regrades.
+- structure was only partly measured; see its verdict above.
+
+--- Usefulness & limitations of this evaluation ---
+Useful for:
+  1. First-pass grading of large classes
+     Example: 300 submissions for a sorting assignment are compiled, tested
+     and scored overnight; the instructor only reads reports whose grade is
+     incomplete or flagged.
+  2. Immediate feedback while students practise
+     Example: A student whose sum overflows for INT_MAX + 1 gets that exact
+     input, the expected output and the UBSan message within a minute, and can
+     resubmit.
+  3. Plagiarism and LLM-copy triage
+     Example: Two submissions with renamed variables reach similarity 0.93
+     against a 0.85 threshold and are flagged; the instructor checks only
+     those pairs.
+  4. Coding-interview and hiring screens
+     Example: Candidates are ranked by correctness, edge cases and memory
+     safety, with a per-metric explanation for every rejection.
+Limits of this report:
+  1. Tests cannot prove correctness
+     Example: A program that special-cases the exact hidden inputs passes
+     every test and still gets full correctness marks.
+  2. LLM-written expected outputs can be wrong
+     Example: The model claims the digit sum of -1234 is -10; a correct
+     program printing 10 fails that test.
+  3. Timing-based complexity is an estimate
+     Example: An O(n log n) sort and an O(n) loop can produce the same curve
+     at n <= 32000 when input reading dominates, so both are reported as O(n).
+  4. Similarity misses rewritten copies and over-flags tiny programs
+     Example: An LLM answer rewritten with a different loop structure scores
+     0.4 and is not flagged, while two honest 6-line add-two-numbers programs
+     look identical.
+
+--- Reproducibility ---
+Tools        : gcc 13.3.0, lizard 1.25.0, sandbox_backend wsl, sandbox_isolation nobody
+Rules hash   : sha256:bfd9c110015e6b07da2f789156cd3b32df372073b446eaea2c04950cfd6ea7e2
+Tests hash   : sha256:ee035830dd6f85e5f2b9de0582df01d8fea8ea8e2831d4228d8a234f9174abfa
+Fingerprint  : 06eeb8f944371f3f18e8f53ab548d4db423f4151b013a05b4a91ea8026fbf159

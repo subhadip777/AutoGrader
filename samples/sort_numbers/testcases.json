@@ -1,0 +1,12 @@
+[
+  {"id": "T001", "input": "5\n3 -1 2 3 0\n", "expected_output": "-1 0 2 3 3\n", "category": "typical", "explanation": "The sample from the statement."},
+  {"id": "T002", "input": "1\n42\n", "expected_output": "42\n", "category": "single", "explanation": "A single value is already sorted."},
+  {"id": "T003", "input": "4\n4 3 2 1\n", "expected_output": "1 2 3 4\n", "category": "reverse_sorted", "explanation": "Descending input must be fully reversed."},
+  {"id": "T004", "input": "4\n1 2 3 4\n", "expected_output": "1 2 3 4\n", "category": "sorted", "explanation": "Already sorted input stays the same."},
+  {"id": "T005", "input": "6\n7 7 7 7 7 7\n", "expected_output": "7 7 7 7 7 7\n", "category": "duplicates", "explanation": "All values equal."},
+  {"id": "T006", "input": "5\n-5 -10 0 -3 -1\n", "expected_output": "-10 -5 -3 -1 0\n", "category": "negatives", "explanation": "Negative values sort by numeric value, not by digits."},
+  {"id": "T007", "input": "3\n1000000000 -1000000000 0\n", "expected_output": "-1000000000 0 1000000000\n", "category": "boundary", "explanation": "The smallest and largest allowed values; comparing with a - b would overflow."},
+  {"id": "T008", "input": "8\n10 9 100 1 55 23 9 0\n", "expected_output": "0 1 9 9 10 23 55 100\n", "category": "typical", "explanation": "Mixed values with one duplicate; numeric, not lexicographic, order."},
+  {"id": "T009", "input": "2\n0 0\n", "expected_output": "0 0\n", "category": "zero", "explanation": "Two zeros."},
+  {"id": "T010", "input": "10\n5 4 3 2 1 10 9 8 7 6\n", "expected_output": "1 2 3 4 5 6 7 8 9 10\n", "category": "typical", "explanation": "Two descending halves."}
+]

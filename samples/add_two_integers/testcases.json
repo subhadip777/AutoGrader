@@ -1,0 +1,12 @@
+[
+  {"id": "T001", "input": "7 5\n", "expected_output": "12\n", "category": "typical", "explanation": "The sample from the statement: 7 + 5 = 12."},
+  {"id": "T002", "input": "10 20\n", "expected_output": "30\n", "category": "typical", "explanation": "Two positive numbers: 10 + 20 = 30."},
+  {"id": "T003", "input": "-5 12\n", "expected_output": "7\n", "category": "negatives", "explanation": "A negative and a positive number: -5 + 12 = 7."},
+  {"id": "T004", "input": "-7 -8\n", "expected_output": "-15\n", "category": "negatives", "explanation": "Two negative numbers: -7 + -8 = -15."},
+  {"id": "T005", "input": "0 0\n", "expected_output": "0\n", "category": "zero", "explanation": "Both zero: 0 + 0 = 0."},
+  {"id": "T006", "input": "0 -42\n", "expected_output": "-42\n", "category": "zero", "explanation": "Zero plus a negative number: 0 + -42 = -42."},
+  {"id": "T007", "input": "1000000000 1000000000\n", "expected_output": "2000000000\n", "category": "boundary", "explanation": "Largest allowed values: 2000000000 still fits in a 32-bit int."},
+  {"id": "T008", "input": "-1000000000 -1000000000\n", "expected_output": "-2000000000\n", "category": "boundary", "explanation": "Smallest allowed values: -2000000000 still fits in a 32-bit int."},
+  {"id": "T009", "input": "123456 654321\n", "expected_output": "777777\n", "category": "typical", "explanation": "Larger values: 123456 + 654321 = 777777."},
+  {"id": "T010", "input": "  3    4  \n", "expected_output": "7\n", "category": "whitespace", "explanation": "Extra spaces around and between the numbers are allowed by the format: 3 + 4 = 7."}
+]
