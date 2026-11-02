@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AutoGrader - Student</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>AutoGrader</h1>
+    <span class="role">Student</span>
+    <a class="home-link" href="/">Home</a>
+  </header>
+
+  <main>
+    <section>
+      <h2>Active assignments</h2>
+      <div id="tiles" class="tiles"></div>
+    </section>
+
+    <section id="submit-section" class="card" hidden>
+      <h2 id="form-title">Submit your solution</h2>
+      <form id="submit-form" novalidate>
+        <label>Assignment ID
+          <input id="aid" type="text" readonly>
+        </label>
+        <label>Name
+          <input id="name" type="text" maxlength="80" autocomplete="name">
+        </label>
+        <label>Roll number
+          <input id="roll" type="text" maxlength="32">
+        </label>
+        <label>Your solution (.c file)
+          <input id="file" type="file" accept=".c">
+        </label>
+        <p id="form-message" role="alert"></p>
+        <div class="actions">
+          <button type="button" id="view-statement" class="secondary">View problem statement</button>
+          <button type="submit" id="submit-btn">Submit</button>
+        </div>
+      </form>
+      <div id="statement-box" class="statement" hidden></div>
+    </section>
+
+    <section id="status-section" hidden>
+      <h2>Submission status</h2>
+      <div id="status-tile" class="tile status-tile"></div>
+    </section>
+  </main>
+
+  <script src="student.js"></script>
+</body>
+</html>

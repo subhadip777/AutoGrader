@@ -1,16 +1,19 @@
 import math
+from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, HTTPException
+from fastapi import BackgroundTasks, FastAPI, File, Form, HTTPException, UploadFile
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, model_validator
-from server import storage
-from contextlib import asynccontextmanager
-from fastapi import BackgroundTasks
+
 from agents import testgen
+from server import jobs, storage
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     storage.reset_stale_jobs()
+    storage.reset_stale_submissions()
     yield
 
 
@@ -139,6 +142,57 @@ def accept_tests(aid: str):
         raise HTTPException(404, "assignment not found")
     except PermissionError as e:
         raise HTTPException(409, str(e))
+# ------------------------------------------------------------ student endpoints
+@app.get("/api/student/assignments")
+def student_list():
+    return storage.list_published()
 
+
+@app.get("/api/student/assignments/{aid}")
+def student_get(aid: str):
+    try:
+        return storage.get_public(aid)
+    except (ValueError, FileNotFoundError):
+        raise HTTPException(404, "assignment not found")
+
+
+@app.post("/api/student/assignments/{aid}/submissions", status_code=202)
+def student_submit(
+    aid: str,
+    background: BackgroundTasks,
+    name: str = Form(...),
+    roll_number: str = Form(...),
+    file: UploadFile = File(...),
+):
+    source = file.file.read(storage.MAX_SOURCE_BYTES + 1)
+    try:
+        info = storage.create_submission(aid, name, roll_number, file.filename or "", source)
+    except storage.InvalidInput as e:
+        raise HTTPException(422, str(e))
+    except (ValueError, FileNotFoundError):
+        raise HTTPException(404, "assignment not found")
+    except PermissionError as e:
+        raise HTTPException(409, str(e))
+    background.add_task(jobs.run_submission, aid, info["roll_number"])
+    return {"assignment_id": aid, "roll_number": info["roll_number"], "attempt": info["attempt"]}
+
+
+@app.get("/api/student/assignments/{aid}/submissions/{roll}/status")
+def student_status(aid: str, roll: str):
+    try:
+        return storage.get_submission_status(aid, roll)
+    except (ValueError, FileNotFoundError):
+        raise HTTPException(404, "submission not found")
+
+
+@app.get("/api/student/assignments/{aid}/submissions/{roll}/report")
+def student_report(aid: str, roll: str):
+    try:
+        path = storage.report_path(aid, roll)
+        roll_id = storage.normalize_roll(roll)
+    except (ValueError, FileNotFoundError):
+        raise HTTPException(404, "report not ready")
+    return FileResponse(path, media_type="text/plain; charset=utf-8",
+                        filename=f"report_{aid}_{roll_id}.txt")
 # Serve the plain HTML/CSS/JS frontend. Must come after the API routes.
 app.mount("/", StaticFiles(directory=storage.REPO_ROOT / "frontend", html=True), name="frontend")

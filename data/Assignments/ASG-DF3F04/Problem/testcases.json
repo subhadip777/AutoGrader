@@ -1,0 +1,72 @@
+[
+  {
+    "id": "T001",
+    "input": "1234",
+    "expected_output": "10\n",
+    "category": "typical",
+    "explanation": "The input is a positive integer, and the expected output is the sum of its digits, which is 1 + 2 + 3 + 4 = 10."
+  },
+  {
+    "id": "T002",
+    "input": "0",
+    "expected_output": "0\n",
+    "category": "typical",
+    "explanation": "The input is a zero, and the expected output is the sum of its digits, which is 0."
+  },
+  {
+    "id": "T003",
+    "input": "-1234",
+    "expected_output": "-10\n",
+    "category": "typical",
+    "explanation": "The input is a negative integer, and the expected output is the sum of its digits, which is -1 - 2 - 3 - 4 = -10."
+  },
+  {
+    "id": "T004",
+    "input": "123456789",
+    "expected_output": "45\n",
+    "category": "typical",
+    "explanation": "The input is a large positive integer, and the expected output is the sum of its digits, which is 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 = 45."
+  },
+  {
+    "id": "T005",
+    "input": "-123456789",
+    "expected_output": "-10\n",
+    "category": "typical",
+    "explanation": "The input is a large negative integer, and the expected output is the sum of its digits, which is -1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 = -10."
+  },
+  {
+    "id": "T006",
+    "input": "1234567890",
+    "expected_output": "45\n",
+    "category": "typical",
+    "explanation": "The input is a large positive integer, and the expected output is the sum of its digits, which is 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 0 = 45."
+  },
+  {
+    "id": "T007",
+    "input": "-1234567890",
+    "expected_output": "-45\n",
+    "category": "typical",
+    "explanation": "The input is a negative integer, and the expected output is the sum of its digits, which is -45."
+  },
+  {
+    "id": "T008",
+    "input": "12345678901234567890",
+    "expected_output": "54\n",
+    "category": "typical",
+    "explanation": "The input is a positive integer, and the expected output is the sum of its digits, which is 54."
+  },
+  {
+    "id": "T009",
+    "input": "123456789012345678901234567890",
+    "expected_output": "54\n",
+    "category": "typical",
+    "explanation": "The input is a positive integer, and the expected output is the sum of its digits, which is 54."
+  },
+  {
+    "id": "T010",
+    "input": "-12345678901234567890",
+    "expected_output": "-10\n",
+    "category": "typical",
+    "explanation": "This test case covers the negative edge case where the input is a number with 10 digits."
+  }
+]

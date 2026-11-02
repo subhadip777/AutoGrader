@@ -1,0 +1,14 @@
+===== AutoGrader submission receipt =====
+Assignment : ssss (ASG-DF3F04)
+Student    : Subhadip Dey
+Roll number: 2611AI41
+Attempt    : 1
+Submitted  : 2026-10-29T18:13:36.427236+00:00
+File       : solution.c, 205 bytes, 18 lines
+SHA-256    : f3efb8d0c8d7cdfe74e5f4a65e77e8a467d699dc6912661b19bb5563f1e3e182
+Rules hash : 3bf604072c3641a57a25f0a6e9890d4d4c75340b1a3690c89a91fd674a838540
+
+STATUS: NOT GRADED
+This is a placeholder report. The sandbox and the analyzers are not
+connected yet, so your program was neither compiled nor run, and no
+grade was produced.

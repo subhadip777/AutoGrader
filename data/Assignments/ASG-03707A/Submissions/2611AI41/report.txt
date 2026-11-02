@@ -1,0 +1,14 @@
+===== AutoGrader submission receipt =====
+Assignment : Add Two Integers (ASG-03707A)
+Student    : Subhadip Dey
+Roll number: 2611AI41
+Attempt    : 1
+Submitted  : 2026-10-29T08:11:57.595535+00:00
+File       : solution.c, 205 bytes, 18 lines
+SHA-256    : f3efb8d0c8d7cdfe74e5f4a65e77e8a467d699dc6912661b19bb5563f1e3e182
+Rules hash : 561299d3118ae74eaac0a67e2c03a5728f9e27cf94f85f0c69eec631a2eabcc2
+
+STATUS: NOT GRADED
+This is a placeholder report. The sandbox and the analyzers are not
+connected yet, so your program was neither compiled nor run, and no
+grade was produced.

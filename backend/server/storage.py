@@ -6,6 +6,8 @@ import secrets
 from datetime import datetime, timezone
 from pathlib import Path
 import threading
+import shutil
+import time
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 ROOT = REPO_ROOT / "data" / "Assignments"
@@ -15,10 +17,27 @@ _lock = threading.Lock()
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
+def _replace_with_retry(tmp: Path, path: Path) -> None:
+    for attempt in range(6):
+        try:
+            os.replace(tmp, path)
+            return
+        except PermissionError:
+            if attempt == 5:
+                raise
+            time.sleep(0.05)
+
+
 def _write_atomic(path: Path, text: str) -> None:
     tmp = path.with_name(path.name + ".tmp")
     tmp.write_text(text, encoding="utf-8")
-    os.replace(tmp, path)
+    _replace_with_retry(tmp, path)
+
+
+def _write_bytes_atomic(path: Path, data: bytes) -> None:
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_bytes(data)
+    _replace_with_retry(tmp, path)
 
 
 def _dir(aid: str) -> Path:
@@ -158,3 +177,164 @@ def accept_tests(aid: str) -> dict:
         meta["tests_accepted_at"] = _now()
         _write_atomic(d / "meta.json", json.dumps(meta, indent=2))
         return meta
+
+# ---------------------------------------------------------------- submissions
+ROLL_RE = re.compile(r"^[A-Za-z0-9_-]{1,32}$")
+RESERVED_NAMES = {"CON", "PRN", "AUX", "NUL",
+                  *{f"COM{i}" for i in range(1, 10)}, *{f"LPT{i}" for i in range(1, 10)}}
+MAX_SOURCE_BYTES = 100_000
+ACTIVE_STATES = {"queued", "running", "grading", "reporting"}
+
+
+class InvalidInput(ValueError):
+    """User-supplied data failed validation (HTTP 422)."""
+
+
+def _read_json(path: Path, default=None):
+    for _ in range(5):
+        try:
+            return json.loads(path.read_text(encoding="utf-8"))
+        except FileNotFoundError:
+            return default
+        except (PermissionError, json.JSONDecodeError):
+            time.sleep(0.05)
+    return default
+
+
+def _require_published(aid: str) -> dict:
+    meta = get_meta(aid)
+    if meta["status"] != "published":
+        raise FileNotFoundError(aid)  # students must not learn that drafts exist
+    return meta
+
+
+def normalize_roll(raw: str) -> str:
+    roll = (raw or "").strip().upper()  # Windows folders ignore case, so normalise it
+    if not ROLL_RE.match(roll) or roll in RESERVED_NAMES:
+        raise InvalidInput("Roll number may contain only letters, digits, '-' and '_' (max 32 characters).")
+    return roll
+
+
+def _sub_dir(aid: str, roll: str) -> Path:
+    base = _dir(aid)
+    d = base / "Submissions" / normalize_roll(roll)
+    if not d.is_dir():
+        raise FileNotFoundError(roll)
+    return d
+
+
+def list_published() -> list[dict]:
+    return [
+        {"id": m["id"], "title": m["title"], "published_at": m.get("published_at")}
+        for m in list_assignments()
+        if m["status"] == "published"
+    ]
+
+
+def get_public(aid: str) -> dict:
+    meta = _require_published(aid)
+    return {"id": aid, "title": meta["title"], "statement": read_statement(aid)}
+
+
+def create_submission(aid: str, name: str, roll_raw: str, filename: str, source: bytes) -> dict:
+    _require_published(aid)
+    name = " ".join((name or "").split())
+    if not name or len(name) > 80:
+        raise InvalidInput("Name is required (max 80 characters).")
+    roll = normalize_roll(roll_raw)
+    if not (filename or "").lower().endswith(".c"):
+        raise InvalidInput("Please upload a .c file.")
+    if not source:
+        raise InvalidInput("The file is empty.")
+    if len(source) > MAX_SOURCE_BYTES:
+        raise InvalidInput(f"The file is larger than {MAX_SOURCE_BYTES // 1000} KB.")
+    if b"\x00" in source:
+        raise InvalidInput("The file does not look like C source text.")
+    try:
+        source.decode("utf-8")
+    except UnicodeDecodeError:
+        raise InvalidInput("The file must be UTF-8 text.")
+
+    with _lock:
+        sub_root = _dir(aid) / "Submissions"
+        sub_root.mkdir(exist_ok=True)
+        d = sub_root / roll
+        hist = d / "history"
+        n_hist = len(list(hist.iterdir())) if hist.exists() else 0
+        attempt = n_hist + 1
+        if (d / "solution.c").exists():
+            current = _read_json(d / "status.json", {})
+            if current.get("state") in ACTIVE_STATES:
+                raise PermissionError("Your previous submission is still being processed. Please wait for it to finish.")
+            dest = hist / f"attempt_{n_hist + 1}"
+            dest.mkdir(parents=True)
+            for item in list(d.iterdir()):
+                if item.name != "history":
+                    shutil.move(str(item), str(dest / item.name))
+            attempt = n_hist + 2
+        d.mkdir(exist_ok=True)
+
+        info = {
+            "assignment_id": aid,
+            "name": name,
+            "roll_number": roll,
+            "attempt": attempt,
+            "submitted_at": _now(),
+            "bytes": len(source),
+            "sha256": hashlib.sha256(source).hexdigest(),
+        }
+        _write_bytes_atomic(d / "solution.c", source)
+        _write_atomic(d / "info.json", json.dumps(info, indent=2))
+        _write_atomic(d / "status.json", json.dumps(
+            {"state": "queued", "message": "Submission received", "updated_at": _now()}, indent=2))
+        return info
+
+
+def set_submission_status(aid: str, roll: str, state: str, message: str = "") -> None:
+    d = _sub_dir(aid, roll)
+    _write_atomic(d / "status.json", json.dumps(
+        {"state": state, "message": message, "updated_at": _now()}, indent=2))
+
+
+def get_submission_status(aid: str, roll: str) -> dict:
+    d = _sub_dir(aid, roll)
+    st = _read_json(d / "status.json", {"state": "unknown", "message": ""})
+    info = _read_json(d / "info.json", {})
+    return {"state": st.get("state"), "message": st.get("message", ""), "attempt": info.get("attempt")}
+
+
+def read_submission(aid: str, roll: str) -> tuple[dict, bytes]:
+    d = _sub_dir(aid, roll)
+    return _read_json(d / "info.json", {}), (d / "solution.c").read_bytes()
+
+
+def write_report(aid: str, roll: str, text: str) -> None:
+    d = _sub_dir(aid, roll)
+    _write_bytes_atomic(d / "report.txt", text.encode("utf-8"))
+
+
+def report_path(aid: str, roll: str) -> Path:
+    d = _sub_dir(aid, roll)
+    st = _read_json(d / "status.json", {})
+    p = d / "report.txt"
+    if st.get("state") != "done" or not p.exists():
+        raise FileNotFoundError("report not ready")
+    return p
+
+
+def reset_stale_submissions() -> None:
+    """A server restart kills background jobs, so mark unfinished submissions as failed."""
+    if not ROOT.exists():
+        return
+    for a in ROOT.iterdir():
+        subs = a / "Submissions"
+        if not subs.is_dir():
+            continue
+        for d in subs.iterdir():
+            st = _read_json(d / "status.json", None)
+            if st and st.get("state") in ACTIVE_STATES:
+                _write_atomic(d / "status.json", json.dumps({
+                    "state": "failed",
+                    "message": "Interrupted by a server restart. Please submit again.",
+                    "updated_at": _now(),
+                }, indent=2))

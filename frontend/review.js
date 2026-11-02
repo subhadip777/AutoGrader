@@ -152,9 +152,9 @@ acceptBtn.addEventListener("click", async () => {
   // Close this window if the main page opened it; otherwise go back to the main page.
   if (window.opener && !window.opener.closed) {
     window.close();
-    setTimeout(() => { location.href = "/"; }, 300);
+    setTimeout(() => { location.href = "/teacher.html"; }, 300);
   } else {
-    location.href = "/";
+    location.href = "/teacher.html";
   }
 });
 

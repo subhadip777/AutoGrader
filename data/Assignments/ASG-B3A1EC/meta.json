@@ -1,0 +1,16 @@
+{
+  "id": "ASG-B3A1EC",
+  "title": "abcd",
+  "status": "published",
+  "num_tests": 25,
+  "tests_accepted": true,
+  "rules_sha256": "3bf604072c3641a57a25f0a6e9890d4d4c75340b1a3690c89a91fd674a838540",
+  "created_at": "2026-10-29T18:11:47.560214+00:00",
+  "generation": {
+    "state": "done",
+    "message": "attempt 2: dropped 7 duplicate/empty/oversized test(s); attempt 3: dropped 7 duplicate/empty/oversized test(s); attempt 4: dropped 7 duplicate/empty/oversized test(s); attempt 5: dropped 7 duplicate/empty/oversized test(s); attempt 6: dropped 7 duplicate/empty/oversized test(s); attempt 7: dropped 7 duplicate/empty/oversized test(s); attempt 8: dropped 7 duplicate/empty/oversized test(s); only 7 of 25 requested tests were produced",
+    "updated_at": "2026-10-29T18:14:25.717942+00:00"
+  },
+  "tests_accepted_at": "2026-10-29T19:42:43.466967+00:00",
+  "published_at": "2026-10-29T19:42:45.200952+00:00"
+}

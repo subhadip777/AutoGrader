@@ -1,0 +1,17 @@
+Problem Statement:
+
+Given a positive integer N, write a C program to calculate the sum of its digits.
+
+Input:
+A single positive integer N.
+
+Output:
+Print the sum of the digits of N.
+
+Example 1:
+
+Input:
+1234
+
+Output:
+10
