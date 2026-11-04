@@ -154,3 +154,19 @@ def test_frontend_pages_are_served(client):
 
 def test_jobs_never_raise(data_root):
     jobs.run_submission("ASG-FFFFFF", "NOPE")      # unknown submission: logged, no exception
+
+
+def test_delete_assignment(client, add_sample):
+    draft = client.post("/api/assignments", json={"title": "D", "statement": "s", "policy": add_sample["rules"],
+                                                  "num_tests": 10}).json()["id"]
+    aid = create_published(client, add_sample)
+    assert client.get(f"/api/assignments/{aid}/delete-summary").json()["submissions"] == 0
+    assert client.delete(f"/api/assignments/{draft}").status_code == 200
+    r = client.delete(f"/api/assignments/{aid}")
+    assert r.status_code == 200 and r.json()["trash"].startswith("Trash")
+    assert client.get("/api/assignments").json() == []
+    assert client.get("/api/student/assignments").json() == []
+    assert client.get(f"/api/student/assignments/{aid}").status_code == 404
+    assert client.delete(f"/api/assignments/{aid}").status_code == 404
+    assert client.delete("/api/assignments/..%2F..%2Fdata").status_code in (404, 405)
+    assert "/delete-summary" in client.get("/app.js").text

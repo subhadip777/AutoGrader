@@ -52,6 +52,43 @@ function showMessage(text) {
   messageEl.textContent = text;
 }
 
+// ---------- delete ----------
+function deleteButton(a) {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "danger";
+  btn.textContent = "Delete";
+  btn.addEventListener("click", async () => {
+    showMessage("");
+    let info;
+    try {
+      info = await api(`/api/assignments/${encodeURIComponent(a.id)}/delete-summary`);
+    } catch (err) {
+      return showMessage("Could not delete: " + err.message);
+    }
+    const what = info.submissions
+      ? `"${info.title}" (${info.id}) and the ${info.submissions} student submission(s) and reports in it`
+      : `"${info.title}" (${info.id})`;
+    const note = info.status === "published" ? " Students will no longer see it." : "";
+    if (info.submissions) {
+      const typed = window.prompt(`Delete ${what}?${note}\n\nIt is moved to data/Trash and can be restored from there by hand.\nType the assignment ID (${info.id}) to confirm.`);
+      if (typed === null) return;
+      if (typed.trim().toUpperCase() !== info.id) return showMessage("The ID did not match; nothing was deleted.");
+    } else if (!window.confirm(`Delete ${what}?${note}\n\nIt is moved to data/Trash and can be restored from there by hand.`)) {
+      return;
+    }
+    btn.disabled = true;
+    try {
+      await api(`/api/assignments/${encodeURIComponent(a.id)}`, { method: "DELETE" });
+      await refreshTiles();
+    } catch (err) {
+      btn.disabled = false;
+      showMessage("Could not delete: " + err.message);
+    }
+  });
+  return btn;
+}
+
 // ---------- rendering ----------
 function renderTiles(list) {
   tilesEl.replaceChildren();
@@ -124,7 +161,7 @@ function renderTiles(list) {
         }
       });
 
-      actions.append(validateBtn, publishBtn);
+      actions.append(validateBtn, publishBtn, deleteButton(a));
       tile.appendChild(actions);
     } else {
       const actions = document.createElement("div");
@@ -142,7 +179,7 @@ function renderTiles(list) {
       testsBtn.addEventListener("click", () => {
         window.open(`/review.html?id=${encodeURIComponent(a.id)}`, "_blank");
       });
-      actions.append(subsBtn, testsBtn);
+      actions.append(subsBtn, testsBtn, deleteButton(a));
       tile.appendChild(actions);
     }
 

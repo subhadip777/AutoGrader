@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 .pytest_cache/
 backend/.langgraph_api/
+data/Trash/

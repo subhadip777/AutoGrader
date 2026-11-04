@@ -455,3 +455,47 @@ def reset_stale_submissions() -> list[tuple[str, str]]:
                 }, indent=2))
                 pending.append((a.name, d.name))
     return pending
+
+
+# ------------------------------------------------------------------ deletion
+def trash_dir() -> Path:
+    return ROOT.parent / "Trash"
+
+
+def assignment_summary(aid: str) -> dict:
+    """What a delete would remove, so the teacher can confirm it."""
+    meta = get_meta(aid)
+    subs = _dir(aid) / "Submissions"
+    rolls = [d for d in subs.iterdir() if d.is_dir() and ROLL_RE.match(d.name)] if subs.is_dir() else []
+    return {"id": aid, "title": meta["title"], "status": meta["status"], "submissions": len(rolls)}
+
+
+def delete_assignment(aid: str) -> dict:
+    """Move the assignment folder to data/Trash/<id>-<timestamp>. Nothing is erased, so a mistaken
+    delete is undone by moving the folder back. Refused while tests are generated or a submission
+    is being graded, because those jobs would write into a folder that no longer exists."""
+    with _lock:
+        d = _dir(aid)
+        meta = json.loads((d / "meta.json").read_text(encoding="utf-8"))
+        if meta.get("generation", {}).get("state") == "running":
+            raise PermissionError("test generation is running; wait for it to finish")
+        subs = d / "Submissions"
+        if subs.is_dir():
+            for s in subs.iterdir():
+                st = _read_json(s / "status.json", None) if s.is_dir() else None
+                if st and st.get("state") in ACTIVE_STATES:
+                    raise PermissionError("a submission is being graded; try again when grading has finished")
+        summary = assignment_summary(aid)
+        trash = trash_dir()
+        trash.mkdir(parents=True, exist_ok=True)
+        dest = trash / f"{aid}-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
+        for attempt in range(6):
+            try:
+                os.replace(d, dest)
+                break
+            except PermissionError:   # Windows: a file is briefly open (antivirus, indexer)
+                if attempt == 5:
+                    raise PermissionError("the assignment folder is in use; try again in a moment")
+                time.sleep(0.1)
+        summary["trash"] = str(dest.relative_to(ROOT.parent))
+        return summary

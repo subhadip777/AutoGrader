@@ -191,3 +191,5 @@ tr.selected td { background: #e0e7ff; }
 .warning-banner.error { background: #fee2e2; color: #7f1d1d; border-color: var(--red); }
 
 [hidden] { display: none !important; }
+button.danger { background: #fff; color: var(--red); border: 1px solid var(--red); margin-left: auto; }
+button.danger:hover { background: #fee2e2; filter: none; }

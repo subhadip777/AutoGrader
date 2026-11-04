@@ -123,3 +123,38 @@ def test_writes_are_atomic(published):
     storage.update_meta(published, note="x")
     leftovers = list((storage.ROOT / published).glob("*.tmp"))
     assert leftovers == [] and json.loads((storage.ROOT / published / "meta.json").read_text())["note"] == "x"
+
+
+# ------------------------------------------------------------------ deletion
+def test_delete_moves_assignment_to_trash(published):
+    storage.create_submission(published, "Ann", "R1", "a.c", b"int main(void){return 0;}")
+    storage.set_submission_status(published, "R1", "done")
+    assert storage.assignment_summary(published)["submissions"] == 1
+    out = storage.delete_assignment(published)
+    assert not (storage.ROOT / published).exists()
+    moved = storage.ROOT.parent / out["trash"]
+    assert (moved / "Submissions" / "R1" / "solution.c").exists()      # nothing is erased
+    assert moved.parent == storage.trash_dir() and storage.trash_dir().parent == storage.ROOT.parent
+    assert storage.list_assignments() == [] and storage.list_published() == []
+    with pytest.raises(FileNotFoundError):
+        storage.get_meta(published)
+
+
+def test_delete_refused_while_grading(published):
+    storage.create_submission(published, "Ann", "R1", "a.c", b"int main(void){return 0;}")   # state: queued
+    with pytest.raises(PermissionError, match="being graded"):
+        storage.delete_assignment(published)
+    assert (storage.ROOT / published).exists()
+
+
+def test_delete_refused_while_generating(data_root, add_sample):
+    meta = storage.create_assignment("D", "s", add_sample["rules"], 5)
+    storage.begin_generation(meta["id"])
+    with pytest.raises(PermissionError, match="generation"):
+        storage.delete_assignment(meta["id"])
+
+
+@pytest.mark.parametrize("aid", ["../Trash", "ASG-ZZZZZZ", "ASG-000000"])
+def test_delete_validates_ids(data_root, aid):
+    with pytest.raises((ValueError, FileNotFoundError)):
+        storage.delete_assignment(aid)

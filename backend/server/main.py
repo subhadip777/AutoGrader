@@ -94,6 +94,27 @@ def get_one(aid: str):
         raise HTTPException(404, "assignment not found")
 
 
+@app.get("/api/assignments/{aid}/delete-summary")
+def delete_summary(aid: str):
+    try:
+        return storage.assignment_summary(aid)
+    except (ValueError, FileNotFoundError):
+        raise HTTPException(404, "assignment not found")
+
+
+@app.delete("/api/assignments/{aid}")
+def delete_assignment(aid: str):
+    """Moves the assignment (with its submissions and reports) to data/Trash; nothing is erased."""
+    try:
+        summary = storage.delete_assignment(aid)
+    except (ValueError, FileNotFoundError):
+        raise HTTPException(404, "assignment not found")
+    except PermissionError as e:
+        raise HTTPException(409, str(e))
+    log.info("assignment %s deleted (moved to %s)", aid, summary["trash"])
+    return summary
+
+
 @app.post("/api/assignments/{aid}/publish")
 def publish(aid: str):
     try:
